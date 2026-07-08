@@ -72,14 +72,9 @@
 
     /* signature device #2: duotone photo treatment, pink/lime, resolves to color on hover */
     .duo { position: relative; overflow: hidden; }
-    .duo img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(1) contrast(1.15) brightness(0.9);
-      transition: filter 0.5s ease, transform 0.7s ease;
-    }
+   .duo img { filter: none !important; transform: none !important; }
+.duo::after { display: none !important; }
+
     .duo::after {
       content: "";
       position: absolute;
@@ -128,22 +123,22 @@
       align-items: center;
       gap: 22px;
       padding: 12px 18px;
-      background: rgba(6,6,6,0.86);
-      backdrop-filter: blur(10px);
+      background: rgba(6,6,6,0.3);
+      backdrop-filter: blur(1px);
       border-bottom: 1px solid var(--line);
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 0;
       text-decoration: none;
       color: var(--white);
     }
 
     .brand-logo {
-      width: 52px;
-      height: 52px;
+      width: 100px;
+      height: 100px;
       object-fit: contain;
       display: block;
     }
@@ -160,18 +155,18 @@
     .menu-list {
       display: inline-flex;
       align-items: center;
-      gap: 2px;
+      gap: 6px;
     }
 
     .menu-list a {
       font-family: "Space Mono", monospace;
       color: var(--muted);
       text-decoration: none;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 9px 12px;
+      padding: 10px 14px;
       transition: color 0.2s ease;
     }
     .menu-list a:hover { color: var(--lime); }
@@ -572,12 +567,352 @@
       color: var(--muted);
     }
 
+    .admin-stats-btn {
+      margin-top: 16px;
+      border: 2px solid var(--line);
+      background: transparent;
+      color: var(--white);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .admin-stats-btn:hover {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 130;
+      background: rgba(6, 6, 6, 0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .admin-modal.open { display: flex; }
+
+    .admin-modal-card {
+      width: min(560px, 100%);
+      border-radius: 22px;
+      border: 2px solid var(--line);
+      background: linear-gradient(145deg, rgba(242,5,143,0.1), rgba(6,6,6,0.98));
+      padding: 22px;
+    }
+
+    .admin-modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .admin-modal-title {
+      margin: 0;
+      font-family: "Unbounded", sans-serif;
+      font-size: clamp(20px, 4vw, 32px);
+      text-transform: uppercase;
+      line-height: 1.05;
+    }
+
+    .admin-modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 2px solid var(--line);
+      background: transparent;
+      color: var(--white);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .admin-login {
+      display: grid;
+      gap: 10px;
+    }
+
+    .admin-login input {
+      min-height: 44px;
+      border-radius: 999px;
+      border: 2px solid var(--line);
+      background: var(--bg);
+      color: var(--white);
+      padding: 0 16px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 15px;
+    }
+
+    .admin-login button,
+    .admin-refresh-btn {
+      min-height: 44px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 16px;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--lime);
+      cursor: pointer;
+    }
+
+    .admin-err {
+      margin: 2px 0 0;
+      color: #ff7f7f;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: none;
+    }
+
+    .admin-err.show { display: block; }
+
+    .admin-stats {
+      display: none;
+      margin-top: 14px;
+      gap: 10px;
+    }
+
+    .admin-stats.show { display: grid; }
+
+    .admin-stat-row {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .ticket-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      background: rgba(6, 6, 6, 0.94);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .ticket-overlay.open { display: flex; }
+
+    .ticket-panel {
+      width: min(940px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      border-radius: 24px;
+      border: 2px solid var(--line);
+      background: linear-gradient(150deg, rgba(242,5,143,0.13), rgba(6,6,6,0.98));
+      padding: 26px;
+      position: relative;
+    }
+
+    .ticket-close {
+      position: absolute;
+      right: 16px;
+      top: 14px;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 2px solid var(--line);
+      background: transparent;
+      color: var(--white);
+      font-family: "Space Mono", monospace;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .ticket-title {
+      margin: 4px 0 8px;
+      font-family: "Unbounded", sans-serif;
+      font-size: clamp(26px, 4.4vw, 46px);
+      text-transform: uppercase;
+      line-height: 1.05;
+    }
+
+    .ticket-sub {
+      margin: 0;
+      color: var(--muted);
+      max-width: 660px;
+    }
+
+    .ticket-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .ticket-card {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(13, 13, 13, 0.9);
+      display: grid;
+      gap: 8px;
+    }
+
+    .ticket-card h3 {
+      margin: 0;
+      font-family: "Unbounded", sans-serif;
+      font-size: 20px;
+      text-transform: uppercase;
+    }
+
+    .ticket-price {
+      margin: 0;
+      color: var(--lime);
+      font-family: "Space Mono", monospace;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .buy-btn {
+      justify-self: start;
+      margin-top: 6px;
+      font-family: "Space Mono", monospace;
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--lime);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .buy-btn:hover { background: var(--pink); color: var(--white); }
+
+    .post-buy {
+      margin-top: 18px;
+      border: 2px solid rgba(215,255,43,0.35);
+      border-radius: 18px;
+      background: rgba(215,255,43,0.06);
+      padding: 18px;
+      display: none;
+    }
+
+    .post-buy.show { display: block; }
+
+    .post-buy p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .post-buy-form {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .post-buy-form input {
+      flex: 1 1 230px;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 2px solid var(--line);
+      background: var(--bg);
+      color: var(--white);
+      padding: 0 16px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 15px;
+    }
+
+    .post-buy-form button {
+      min-height: 44px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 16px;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--lime);
+      cursor: pointer;
+    }
+
+    .mail-sent {
+      margin-top: 10px;
+      color: var(--lime);
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: none;
+    }
+
+    .mail-sent.show { display: block; }
+
+    .stats-band {
+      background: linear-gradient(180deg, var(--bg-soft), rgba(13, 13, 13, 0.5));
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 26px 0;
+      display: none;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 20px;
+      background: rgba(242, 5, 143, 0.06);
+    }
+
+    .stat-number {
+      margin: 0;
+      font-family: "Unbounded", sans-serif;
+      font-size: clamp(20px, 4vw, 32px);
+      line-height: 1;
+      color: var(--lime);
+    }
+
+    .stat-label {
+      margin: 6px 0 0;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
     @media (max-width: 980px) {
       .info-grid, .event-grid { grid-template-columns: 1fr; }
       .main { padding-top: 84px; }
       .menu-list { display: none; }
       .gallery-caption { flex-direction: column; align-items: flex-start; }
       .hero-stamp { width: 84px; height: 84px; }
+      .ticket-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -605,7 +940,6 @@
     <div class="row">
       <a class="brand" href="./index.html#top" aria-label="Dating Museum home">
         <img class="brand-logo" src="./assets/images/Logo.png" alt="Dating Museum Logo" />
-        <span class="brand-text">dating <span>museum</span></span>
       </a>
       <nav class="menu-list" aria-label="Main navigation">
         <a href="#events">Events</a>
@@ -624,7 +958,6 @@
 
     <div class="hero-inner">
       <div class="hero-center">
-        <img class="hero-stamp" src="./assets/images/Logo.png" alt="" aria-hidden="true" />
         <p class="hero-copy">skip the swipe.<br /><span class="pink">feel</span> the <span class="lime">spark.</span></p>
         <p class="hero-sub">Rooms, games and late nights built for meeting people IRL. No profile required.</p>
       </div>
@@ -655,6 +988,23 @@
     </div>
   </section>
 
+  <section class="stats-band" aria-label="Website statistics">
+    <div class="wrap stats-grid">
+      <article class="stat-card">
+        <p class="stat-number" id="statVisits">-</p>
+        <p class="stat-label">Website Visits</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-number" id="statPurchases">-</p>
+        <p class="stat-label">Ticket Clicks</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-number" id="statSignups">-</p>
+        <p class="stat-label">Email Signups</p>
+      </article>
+    </div>
+  </section>
+
   <main class="main">
     <section class="wrap reveal" id="concept">
       <span class="eyebrow">The Concept</span>
@@ -662,7 +1012,7 @@
       <p class="section-text">Dating became a swipe. We put it back in a room. Every space here is built for something a screen can't do: proximity, timing, a shared silence. Immersive rooms, live matchmaking and theme nights — made for people who'd rather meet someone than message them.</p>
     </section>
 
-    <section class="wrap reveal" style="margin-top: 76px;" id="events">
+    <section class="wrap reveal" style="margin-top: 76px; scroll-margin-top: 160px;" id="events">
       <span class="eyebrow">Night Program</span>
       <h2 class="section-title">Two nights, <span class="lime">already</span> regulars</h2>
       <p class="section-text">Kinky Event runs every Saturday. Students Party runs every Thursday. Both are already part of the house calendar.</p>
@@ -698,7 +1048,8 @@
 
       <div class="gallery">
         <article class="gallery-item">
-          <div class="duo"><img src="./pictures/RedflagComputerFrau.png" alt="Red Flag Room" loading="lazy" /></div>
+          <div class="duo"><img src="
+./assets/images/RedflagComputerFrau.png" alt="Red Flag Room" loading="lazy" /></div>
           <div class="gallery-caption">
             <div class="gallery-caption-text">
               <h3>Red Flag Room</h3>
@@ -708,7 +1059,7 @@
         </article>
 
         <article class="gallery-item">
-          <div class="duo"><img src="./pictures/History2.png" alt="History of Meeting" loading="lazy" /></div>
+          <div class="duo"><img src="./assets/images/History2.png" alt="History of Meeting" loading="lazy" /></div>
           <div class="gallery-caption">
             <div class="gallery-caption-text">
               <h3>History of Meeting</h3>
@@ -718,7 +1069,7 @@
         </article>
 
         <article class="gallery-item">
-          <div class="duo"><img src="./pictures/Sternhimmelraum.png" alt="Star Room" loading="lazy" /></div>
+          <div class="duo"><img src="./assets/images/Sternhimmelraum.png" alt="Star Room" loading="lazy" /></div>
           <div class="gallery-caption">
             <div class="gallery-caption-text">
               <h3>Star Room</h3>
@@ -728,7 +1079,7 @@
         </article>
 
         <article class="gallery-item">
-          <div class="duo"><img src="./pictures/HeartBeat.png" alt="Heartbeat" loading="lazy" /></div>
+          <div class="duo"><img src="./assets/images/HeartBeat.png" alt="Heartbeat" loading="lazy" /></div>
           <div class="gallery-caption">
             <div class="gallery-caption-text">
               <h3>Heartbeat</h3>
@@ -741,7 +1092,7 @@
       <p class="gallery-note">Come to the museum to see the rest of the rooms</p>
     </section>
 
-    <section class="wrap reveal" style="margin-top: 90px;" id="shop">
+    <section class="wrap reveal" style="margin-top: 90px; scroll-margin-top: 160px;" id="shop">
       <span class="eyebrow">Shop</span>
       <h2 class="section-title">Merch is <span class="pink">coming</span> <span class="lime">soon.</span></h2>
       <p class="section-text">Stickers, tees and museum tickets to take home — the shop is being stocked right now. Check back soon or follow us to get notified the moment it drops.</p>
@@ -776,8 +1127,72 @@
     <footer>
       <div class="foot-brand">dating <span>museum</span></div>
       <div class="foot-line">Berlin</div>
+      <button class="admin-stats-btn" id="openStatsAdmin" type="button">View Stats</button>
     </footer>
   </main>
+
+  <div class="ticket-overlay" id="ticketOverlay" aria-hidden="true">
+    <div class="ticket-panel" role="dialog" aria-modal="true" aria-labelledby="ticketTitle">
+      <button class="ticket-close" type="button" id="closeTicketOverlay" aria-label="Close ticket panel">×</button>
+      <span class="eyebrow">Tickets</span>
+      <h2 class="ticket-title" id="ticketTitle">Choose your ticket</h2>
+      <p class="ticket-sub">Pick one of the available options below. Prices are the same as listed on this website.</p>
+
+      <div class="ticket-grid" id="ticketGrid">
+        <article class="ticket-card">
+          <h3>Museum Ticket Student</h3>
+          <p class="ticket-price">€10</p>
+          <button class="buy-btn" type="button">Buy now</button>
+        </article>
+        <article class="ticket-card">
+          <h3>Museum Ticket Regular</h3>
+          <p class="ticket-price">€15</p>
+          <button class="buy-btn" type="button">Buy now</button>
+        </article>
+        <article class="ticket-card">
+          <h3>Event Ticket Student</h3>
+          <p class="ticket-price">€20</p>
+          <button class="buy-btn" type="button">Buy now</button>
+        </article>
+        <article class="ticket-card">
+          <h3>Event Ticket Regular</h3>
+          <p class="ticket-price">€25</p>
+          <button class="buy-btn" type="button">Buy now</button>
+        </article>
+      </div>
+
+      <section class="post-buy" id="postBuy">
+        <p>Thanks for buying, but we are not existing right now. Put your e-mail here so we can text you if its exist.</p>
+        <form class="post-buy-form" id="postBuyForm">
+          <input type="email" id="notifyEmail" placeholder="your@email.com" required />
+          <button type="submit">Notify me</button>
+        </form>
+        <div class="mail-sent" id="mailSent">We'll keep your contact for launch updates.</div>
+      </section>
+    </div>
+  </div>
+
+  <div class="admin-modal" id="adminModal" aria-hidden="true">
+    <div class="admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+      <div class="admin-modal-head">
+        <h3 class="admin-modal-title" id="adminModalTitle">Stats Access</h3>
+        <button class="admin-modal-close" type="button" id="closeStatsAdmin" aria-label="Close stats modal">×</button>
+      </div>
+
+      <div class="admin-login">
+        <input id="statsPassword" type="password" placeholder="Enter password" autocomplete="off" />
+        <button type="button" id="unlockStats">Open stats</button>
+        <p class="admin-err" id="statsPasswordError">Wrong password.</p>
+      </div>
+
+      <div class="admin-stats" id="adminStatsContent">
+        <div class="admin-stat-row"><span>Website Visits</span><strong id="adminVisits">-</strong></div>
+        <div class="admin-stat-row"><span>Ticket Clicks</span><strong id="adminPurchases">-</strong></div>
+        <div class="admin-stat-row"><span>Email Signups</span><strong id="adminSignups">-</strong></div>
+        <button class="admin-refresh-btn" type="button" id="adminRefreshStats">Refresh</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     const heroVideo = document.querySelector('.hero video');
@@ -835,6 +1250,225 @@
     } else {
       revealEls.forEach((el) => el.classList.add('in-view'));
     }
+
+    const ticketButton = document.querySelector('.ticket-btn');
+    const ticketOverlay = document.getElementById('ticketOverlay');
+    const closeTicketOverlay = document.getElementById('closeTicketOverlay');
+    const postBuy = document.getElementById('postBuy');
+    const postBuyForm = document.getElementById('postBuyForm');
+    const mailSent = document.getElementById('mailSent');
+    const notifyEmail = document.getElementById('notifyEmail');
+    let selectedTicket = 'No ticket selected';
+
+    const openTicketOverlay = () => {
+      ticketOverlay?.classList.add('open');
+      ticketOverlay?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const hideTicketOverlay = () => {
+      ticketOverlay?.classList.remove('open');
+      ticketOverlay?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    ticketButton?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openTicketOverlay();
+    });
+
+    closeTicketOverlay?.addEventListener('click', hideTicketOverlay);
+
+    ticketOverlay?.addEventListener('click', (event) => {
+      if (event.target === ticketOverlay) {
+        hideTicketOverlay();
+      }
+    });
+
+    document.querySelectorAll('.buy-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const card = button.closest('.ticket-card');
+        const ticketName = card?.querySelector('h3')?.textContent?.trim() ?? 'Unknown ticket';
+        const ticketPrice = card?.querySelector('.ticket-price')?.textContent?.trim() ?? 'Unknown price';
+        selectedTicket = `${ticketName} (${ticketPrice})`;
+        postBuy?.classList.add('show');
+        postBuy?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+
+    postBuyForm?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const emailValue = notifyEmail?.value?.trim();
+      if (!emailValue) return;
+
+      const payload = {
+        email: emailValue,
+        selected_ticket: selectedTicket,
+        _subject: 'Dating Museum - Ticket Interest',
+        _captcha: 'false'
+      };
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/paukerleon@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error('Form submit failed');
+        }
+
+        mailSent.textContent = 'Thanks. Your email was sent to paukerleon@gmail.com.';
+      } catch {
+        const subject = encodeURIComponent('Dating Museum - Ticket Interest');
+        const body = encodeURIComponent(`Email: ${emailValue}\nTicket: ${selectedTicket}`);
+        window.location.href = `mailto:paukerleon@gmail.com?subject=${subject}&body=${body}`;
+        mailSent.textContent = 'Your mail app has been opened to send your details to paukerleon@gmail.com.';
+      }
+
+      mailSent?.classList.add('show');
+      postBuyForm.reset();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && ticketOverlay?.classList.contains('open')) {
+        hideTicketOverlay();
+      }
+    });
+
+    const COUNTER_NAMESPACE = 'dating-museum-live';
+    const VISITS_KEY = 'visits';
+    const PURCHASES_KEY = 'purchases';
+    const SIGNUPS_KEY = 'signups';
+
+    const statVisits = document.getElementById('statVisits');
+    const statPurchases = document.getElementById('statPurchases');
+    const statSignups = document.getElementById('statSignups');
+    const openStatsAdmin = document.getElementById('openStatsAdmin');
+    const adminModal = document.getElementById('adminModal');
+    const closeStatsAdmin = document.getElementById('closeStatsAdmin');
+    const unlockStats = document.getElementById('unlockStats');
+    const statsPassword = document.getElementById('statsPassword');
+    const statsPasswordError = document.getElementById('statsPasswordError');
+    const adminStatsContent = document.getElementById('adminStatsContent');
+    const adminVisits = document.getElementById('adminVisits');
+    const adminPurchases = document.getElementById('adminPurchases');
+    const adminSignups = document.getElementById('adminSignups');
+    const adminRefreshStats = document.getElementById('adminRefreshStats');
+
+    const ADMIN_STATS_PASSWORD = 'FHPGOATED';
+
+    const formatStat = (value) => new Intl.NumberFormat('de-DE').format(value);
+
+    const getCount = async (key) => {
+      const url = `https://api.countapi.xyz/get/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(key)}`;
+      const response = await fetch(url);
+      if (!response.ok) return 0;
+      const data = await response.json();
+      return Number.isFinite(data.value) ? data.value : 0;
+    };
+
+    const hitCount = async (key) => {
+      const url = `https://api.countapi.xyz/hit/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(key)}`;
+      const response = await fetch(url);
+      if (!response.ok) return null;
+      const data = await response.json();
+      return Number.isFinite(data.value) ? data.value : null;
+    };
+
+    const refreshStats = async () => {
+      try {
+        const [visits, purchases, signups] = await Promise.all([
+          getCount(VISITS_KEY),
+          getCount(PURCHASES_KEY),
+          getCount(SIGNUPS_KEY)
+        ]);
+        if (statVisits) statVisits.textContent = formatStat(visits);
+        if (statPurchases) statPurchases.textContent = formatStat(purchases);
+        if (statSignups) statSignups.textContent = formatStat(signups);
+        if (adminVisits) adminVisits.textContent = formatStat(visits);
+        if (adminPurchases) adminPurchases.textContent = formatStat(purchases);
+        if (adminSignups) adminSignups.textContent = formatStat(signups);
+      } catch {
+        if (statVisits) statVisits.textContent = '-';
+        if (statPurchases) statPurchases.textContent = '-';
+        if (statSignups) statSignups.textContent = '-';
+        if (adminVisits) adminVisits.textContent = '-';
+        if (adminPurchases) adminPurchases.textContent = '-';
+        if (adminSignups) adminSignups.textContent = '-';
+      }
+    };
+
+    const trackVisit = async () => {
+      await hitCount(VISITS_KEY).catch(() => null);
+      refreshStats();
+    };
+
+    trackVisit();
+
+    document.querySelectorAll('.buy-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        hitCount(PURCHASES_KEY)
+          .then(refreshStats)
+          .catch(() => null);
+      });
+    });
+
+    postBuyForm?.addEventListener('submit', () => {
+      hitCount(SIGNUPS_KEY)
+        .then(refreshStats)
+        .catch(() => null);
+    });
+
+    const showAdminModal = () => {
+      adminModal?.classList.add('open');
+      adminModal?.setAttribute('aria-hidden', 'false');
+      if (statsPassword) statsPassword.value = '';
+      statsPasswordError?.classList.remove('show');
+      adminStatsContent?.classList.remove('show');
+    };
+
+    const hideAdminModal = () => {
+      adminModal?.classList.remove('open');
+      adminModal?.setAttribute('aria-hidden', 'true');
+    };
+
+    openStatsAdmin?.addEventListener('click', showAdminModal);
+    closeStatsAdmin?.addEventListener('click', hideAdminModal);
+
+    adminModal?.addEventListener('click', (event) => {
+      if (event.target === adminModal) {
+        hideAdminModal();
+      }
+    });
+
+    unlockStats?.addEventListener('click', async () => {
+      if (statsPassword?.value !== ADMIN_STATS_PASSWORD) {
+        statsPasswordError?.classList.add('show');
+        adminStatsContent?.classList.remove('show');
+        return;
+      }
+
+      statsPasswordError?.classList.remove('show');
+      await refreshStats();
+      adminStatsContent?.classList.add('show');
+    });
+
+    statsPassword?.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        unlockStats?.click();
+      }
+    });
+
+    adminRefreshStats?.addEventListener('click', refreshStats);
+
+    refreshStats();
   </script>
 </body>
 </html>
