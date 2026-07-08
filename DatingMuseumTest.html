@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dating Museum — Berlin</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: #060606;
+      --bg-soft: #0d0d0d;
+      --pink: #f2058f;
+      --pink-deep: #b4046a;
+      --lime: #d7ff2b;
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.68);
+      --line: rgba(255,255,255,0.14);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+      color: var(--white);
+      background: var(--bg);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    .wrap { width: min(1180px, 92vw); margin: 0 auto; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--lime);
+    }
+    .eyebrow::before { content: "●"; color: var(--pink); font-size: 8px; }
+
+    .display-title {
+      font-family: "Unbounded", sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    /* signature device #1: stamp/sticker badge, rotated, dashed border like a club entry stamp */
+    .stamp {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 2px dashed var(--lime);
+      border-radius: 999px;
+      transform: rotate(-7deg);
+      padding: 10px 16px;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--lime);
+      background: rgba(215,255,43,0.06);
+    }
+
+    /* signature device #2: duotone photo treatment, pink/lime, resolves to color on hover */
+    .duo { position: relative; overflow: hidden; }
+    .duo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.15) brightness(0.9);
+      transition: filter 0.5s ease, transform 0.7s ease;
+    }
+    .duo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--pink), var(--lime));
+      mix-blend-mode: color;
+      opacity: 0.85;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+    .duo:hover img { filter: grayscale(0) contrast(1.05) brightness(1); transform: scale(1.03); }
+    .duo:hover::after { opacity: 0; }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 50;
+    }
+
+    .ticker {
+      background: var(--pink);
+      color: var(--bg);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 6px 0;
+      border-bottom: 2px solid var(--lime);
+    }
+    .ticker-track {
+      display: inline-block;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      animation: ticker 22s linear infinite;
+    }
+    .ticker-track span { margin: 0 22px; }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .site-header .row {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding: 12px 18px;
+      background: rgba(6,6,6,0.86);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--white);
+    }
+
+    .brand-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-text {
+      font-family: "Unbounded", sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-transform: lowercase;
+    }
+    .brand-text span { color: var(--lime); }
+
+    .menu-list {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .menu-list a {
+      font-family: "Space Mono", monospace;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 9px 12px;
+      transition: color 0.2s ease;
+    }
+    .menu-list a:hover { color: var(--lime); }
+
+    .ticket-btn {
+      margin-left: auto;
+      font-family: "Space Mono", monospace;
+      padding: 10px 18px;
+      text-decoration: none;
+      color: var(--bg);
+      background: var(--lime);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      transition: 0.2s ease;
+      display: inline-block;
+    }
+    .ticket-btn:hover { background: var(--pink); color: var(--white); transform: translateY(-2px); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .hero video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.3) contrast(1.1);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(242,5,143,0.35), transparent 45%),
+        radial-gradient(circle at 84% 76%, rgba(215,255,43,0.22), transparent 48%),
+        linear-gradient(to top, rgba(6,6,6,0.95), rgba(6,6,6,0.35) 45%, rgba(6,6,6,0.55));
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding-top: 110px;
+    }
+
+    .hero-center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 16px;
+    }
+
+    .hero-stamp {
+      width: 108px;
+      height: 108px;
+      margin-bottom: 26px;
+    }
+
+    .hero-copy {
+      font-family: "Unbounded", sans-serif;
+      max-width: 980px;
+      margin: 0;
+      font-size: clamp(32px, 6.4vw, 76px);
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    .hero-copy .pink { color: var(--pink); }
+    .hero-copy .lime { color: var(--lime); }
+
+    .hero-sub {
+      margin-top: 20px;
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 460px;
+    }
+
+    .scroll-indicator {
+      margin: 0 auto 22px;
+      text-align: center;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .scroll-indicator .arrow {
+      display: block;
+      font-size: 16px;
+      color: var(--lime);
+      animation: bounce 1.6s infinite ease-in-out;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+
+    /* ---------- Visitor info band ---------- */
+    .info-band {
+      position: relative;
+      z-index: 3;
+      background: var(--bg-soft);
+      border-top: 2px solid var(--pink);
+      border-bottom: 2px solid var(--lime);
+      padding: 30px 0;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .info-card {
+      min-height: 176px;
+      padding: 26px;
+      border-radius: 22px;
+      border: 2px solid var(--line);
+      background: linear-gradient(150deg, rgba(242,5,143,0.1), rgba(0,0,0,0.4));
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .info-card:nth-child(2) { background: linear-gradient(150deg, rgba(215,255,43,0.08), rgba(0,0,0,0.4)); }
+    .info-card:hover { transform: rotate(-1deg) translateY(-2px); border-color: var(--pink); }
+
+    .info-card small {
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+      color: var(--lime);
+    }
+
+    .info-card h3 {
+      font-family: "Unbounded", sans-serif;
+      margin: 10px 0 10px;
+      font-size: clamp(20px, 2vw, 27px);
+      font-weight: 700;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .info-card p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+    .info-card a { color: var(--pink); font-weight: 600; }
+
+    /* ---------- Main sections ---------- */
+    .main { padding: 96px 0 60px; background: var(--bg); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    .section-title {
+      font-family: "Unbounded", sans-serif;
+      margin: 12px 0 0;
+      font-size: clamp(28px, 4.2vw, 54px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+    .section-title .pink { color: var(--pink); }
+    .section-title .lime { color: var(--lime); }
+
+    .section-text {
+      margin-top: 16px;
+      color: var(--muted);
+      max-width: 760px;
+      font-size: 17px;
+    }
+
+    /* Events */
+    .event-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .event-card {
+      border-radius: 24px;
+      border: 2px solid var(--pink);
+      padding: 28px;
+      background: rgba(242,5,143,0.06);
+      transition: 0.25s ease;
+    }
+    .event-card:hover { transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 18px 40px rgba(242,5,143,0.25); }
+
+    .event-card h3 {
+      font-family: "Unbounded", sans-serif;
+      margin: 12px 0 6px;
+      font-size: 28px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--lime);
+      border-radius: 999px;
+      padding: 5px 11px;
+    }
+
+    .event-time {
+      font-family: "Space Mono", monospace;
+      color: var(--lime);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 10px 0;
+    }
+
+    .chip-label {
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 26px;
+    }
+    .chip-wrap { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      border: 2px solid var(--white);
+      border-radius: 999px;
+      background: transparent;
+      padding: 8px 16px;
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      transform: rotate(-1deg);
+    }
+    .chip:nth-child(even) { transform: rotate(1deg); border-color: var(--lime); color: var(--lime); }
+
+    /* Installations gallery */
+    .gallery {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 26px;
+      overflow: hidden;
+      border: 2px solid var(--line);
+      background: var(--bg-soft);
+    }
+
+    .gallery-item .duo { aspect-ratio: 16 / 9; }
+
+    .gallery-caption {
+      position: absolute;
+      inset: auto 0 0 0;
+      z-index: 2;
+      padding: 26px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      background: linear-gradient(to top, rgba(6,6,6,0.92), transparent 85%);
+    }
+
+    .gallery-caption-text h3 {
+      font-family: "Unbounded", sans-serif;
+      margin: 6px 0 8px;
+      font-size: clamp(22px, 3.2vw, 36px);
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .gallery-caption-text p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 620px;
+      font-size: 15px;
+    }
+
+    .gallery-note {
+      margin-top: 30px;
+      text-align: center;
+      font-family: "Space Mono", monospace;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--lime);
+      border-radius: 999px;
+      padding: 14px 0;
+    }
+
+    /* FAQ — chat bubble style */
+    .faq { margin: 84px auto 0; max-width: 780px; }
+    .faq h2 { text-align: center; }
+    .faq .eyebrow-wrap { display: block; text-align: center; }
+
+    .faq-item {
+      border-radius: 22px;
+      border: 2px solid var(--line);
+      background: var(--bg-soft);
+      margin-top: 14px;
+      overflow: hidden;
+    }
+    .faq-item:nth-child(odd) { border-color: rgba(242,5,143,0.4); }
+    .faq-item:nth-child(even) { border-color: rgba(215,255,43,0.4); }
+
+    .faq-q {
+      width: 100%;
+      background: transparent;
+      color: var(--white);
+      border: 0;
+      text-align: left;
+      padding: 18px 22px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .faq-q .plus {
+      font-family: "Unbounded", sans-serif;
+      color: var(--lime);
+      font-size: 20px;
+      line-height: 1;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-q .plus { transform: rotate(45deg); color: var(--pink); }
+
+    .faq-a {
+      display: none;
+      padding: 0 22px 20px;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 620px;
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    footer {
+      margin-top: 74px;
+      border-top: 1px solid var(--line);
+      padding: 34px 0 46px;
+      text-align: center;
+    }
+    footer .foot-brand {
+      font-family: "Unbounded", sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    footer .foot-brand span { color: var(--pink); }
+    footer .foot-line {
+      margin-top: 8px;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    @media (max-width: 980px) {
+      .info-grid, .event-grid { grid-template-columns: 1fr; }
+      .main { padding-top: 84px; }
+      .menu-list { display: none; }
+      .gallery-caption { flex-direction: column; align-items: flex-start; }
+      .hero-stamp { width: 84px; height: 84px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .scroll-indicator .arrow { animation: none; }
+      .ticker-track { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="ticker">
+      <div class="ticker-track">
+        <span>★ KINKY EVENT — EVERY SATURDAY</span>
+        <span>★ STUDENTS PARTY — EVERY THURSDAY</span>
+        <span>★ TICKETS FROM €10</span>
+        <span>★ 10961 BERLIN KREUZBERG</span>
+        <span>★ KINKY EVENT — EVERY SATURDAY</span>
+        <span>★ STUDENTS PARTY — EVERY THURSDAY</span>
+        <span>★ TICKETS FROM €10</span>
+        <span>★ 10961 BERLIN KREUZBERG</span>
+      </div>
+    </div>
+    <div class="row">
+      <a class="brand" href="#top" aria-label="Dating Museum home">
+        <img class="brand-logo" src="./pictures/Logo.png" alt="Dating Museum Logo" />
+        <span class="brand-text">dating <span>museum</span></span>
+      </a>
+      <nav class="menu-list" aria-label="Main navigation">
+        <a href="#events">Events</a>
+        <a href="#shop">Shop</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="ticket-btn" href="#visit">Get Tickets</a>
+    </div>
+  </header>
+
+  <section class="hero" id="top">
+    <video autoplay loop muted playsinline preload="auto" poster="./assets/images/History2.png" aria-label="Dating Museum Ambience">
+      <source src="./assets/Video/VideoMuseumTest1.mov" type="video/quicktime" />
+      <img src="./assets/images/History2.png" alt="Dating Museum Ambience" />
+    </video>
+
+    <div class="hero-inner">
+      <div class="hero-center">
+        <img class="hero-stamp" src="./pictures/Logo.png" alt="" aria-hidden="true" />
+        <p class="hero-copy">skip the swipe.<br /><span class="pink">feel</span> the <span class="lime">spark.</span></p>
+        <p class="hero-sub">Rooms, games and late nights built for meeting people IRL. No profile required.</p>
+      </div>
+      <div class="scroll-indicator" id="scrollToEvents">
+        Explore the Collection
+        <span class="arrow">⌄</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-band" id="visit">
+    <div class="wrap info-grid">
+      <article class="info-card">
+        <small>Open Hours</small>
+        <h3>Tue–Sun, 15:00–22:00</h3>
+        <p>Select late-night rooms run until 03:00.</p>
+      </article>
+      <article class="info-card">
+        <small>Location</small>
+        <h3>10961 Berlin, Kreuzberg</h3>
+        <p><a href="https://maps.google.com/?q=Berlin+Germany" target="_blank" rel="noreferrer">Open in Google Maps</a></p>
+      </article>
+      <article class="info-card">
+        <small>Tickets</small>
+        <h3>From €10</h3>
+        <p>Reserve a same-day slot for tonight's rooms.</p>
+      </article>
+    </div>
+  </section>
+
+  <main class="main">
+    <section class="wrap reveal" id="concept">
+      <span class="eyebrow">The Concept</span>
+      <h2 class="section-title">Bypass the small talk.<br /><span class="pink">Ignite</span> real <span class="lime">sparks.</span></h2>
+      <p class="section-text">Dating became a swipe. We put it back in a room. Every space here is built for something a screen can't do: proximity, timing, a shared silence. Immersive rooms, live matchmaking and theme nights — made for people who'd rather meet someone than message them.</p>
+    </section>
+
+    <section class="wrap reveal" style="margin-top: 76px;" id="events">
+      <span class="eyebrow">Night Program</span>
+      <h2 class="section-title">Two nights, <span class="lime">already</span> regulars</h2>
+      <p class="section-text">Kinky Event runs every Saturday. Students Party runs every Thursday. Both are already part of the house calendar.</p>
+
+      <div class="event-grid">
+        <article class="event-card">
+          <span class="tag">Live</span>
+          <h3>Kinky Event</h3>
+          <p class="event-time">Every Saturday Night</p>
+          <p>Our signature late-night format — playful, immersive and run under strict consent-first moderation.</p>
+        </article>
+        <article class="event-card">
+          <span class="tag">Live</span>
+          <h3>Students Party</h3>
+          <p class="event-time">Every Thursday Night</p>
+          <p>Lower price, high energy. Games, music and social installations built for students to connect.</p>
+        </article>
+      </div>
+
+      <span class="chip-label">Also in rotation</span>
+      <div class="chip-wrap">
+        <span class="chip">Adult Party</span>
+        <span class="chip">Gay Night</span>
+        <span class="chip">Comedy Event</span>
+        <span class="chip">Art Workshop</span>
+      </div>
+    </section>
+
+    <section class="wrap reveal" style="margin-top: 90px;" id="installations">
+      <span class="eyebrow">Our Installations</span>
+      <h2 class="section-title">Curated <span class="pink">experiences</span></h2>
+      <p class="section-text">Step inside our world. Each room is a unique, immersive encounter designed to spark real connection.</p>
+
+      <div class="gallery">
+        <article class="gallery-item">
+          <div class="duo"><img src="./pictures/RedflagComputerFrau.png" alt="Red Flag Room" loading="lazy" /></div>
+          <div class="gallery-caption">
+            <div class="gallery-caption-text">
+              <h3>Red Flag Room</h3>
+              <p>Write down your most outrageous red flags and share them with the room, then laugh about them together.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="gallery-item">
+          <div class="duo"><img src="./pictures/History2.png" alt="History of Meeting" loading="lazy" /></div>
+          <div class="gallery-caption">
+            <div class="gallery-caption-text">
+              <h3>History of Meeting</h3>
+              <p>Step into the past and re-enact iconic scenes of how people used to meet, from candlelit courtship to chance encounters.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="gallery-item">
+          <div class="duo"><img src="./pictures/Sternhimmelraum.png" alt="Star Room" loading="lazy" /></div>
+          <div class="gallery-caption">
+            <div class="gallery-caption-text">
+              <h3>Star Room</h3>
+              <p>Draw your own star and watch it come to life in a dreamy projected star-field room.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="gallery-item">
+          <div class="duo"><img src="./pictures/HeartBeat.png" alt="Heartbeat" loading="lazy" /></div>
+          <div class="gallery-caption">
+            <div class="gallery-caption-text">
+              <h3>Heartbeat</h3>
+              <p>Two people's heartbeats are measured simultaneously and displayed as a live visual — a portrait of chemistry between strangers.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="gallery-note">Come to the museum to see the rest of the rooms</p>
+    </section>
+
+    <section class="wrap reveal" style="margin-top: 90px;" id="shop">
+      <span class="eyebrow">Shop</span>
+      <h2 class="section-title">Merch is <span class="pink">coming</span> <span class="lime">soon.</span></h2>
+      <p class="section-text">Stickers, tees and museum tickets to take home — the shop is being stocked right now. Check back soon or follow us to get notified the moment it drops.</p>
+      <div class="stamp" style="margin-top: 22px;">Drop Soon</div>
+    </section>
+
+    <section class="faq wrap reveal" id="faq">
+      <span class="eyebrow eyebrow-wrap">Got Questions?</span>
+      <h2 class="section-title" style="text-align:center;">General <span class="pink">Info</span></h2>
+
+      <article class="faq-item">
+        <button class="faq-q" type="button">How much are tickets? <span class="plus">+</span></button>
+        <div class="faq-a">Museum day tickets are €10 (student) and €15 (regular). Event tickets are €20 (student) and €25 (regular).</div>
+      </article>
+
+      <article class="faq-item">
+        <button class="faq-q" type="button">How does the matching work? <span class="plus">+</span></button>
+        <div class="faq-a">We blend digital art with real-world interactions. On entry, you can opt into anonymous matchmaking games on interactive screens.</div>
+      </article>
+
+      <article class="faq-item">
+        <button class="faq-q" type="button">What is your safety and consent policy? <span class="plus">+</span></button>
+        <div class="faq-a">Zero tolerance for non-consensual behaviour. Events are staffed with trained awareness guides and open with a consent briefing.</div>
+      </article>
+
+      <article class="faq-item">
+        <button class="faq-q" type="button">Where is the museum located? <span class="plus">+</span></button>
+        <div class="faq-a">The Dating Museum is currently an active conceptual layout. Physical pop-up locations across Berlin and Munich are being prepared.</div>
+      </article>
+    </section>
+
+    <footer>
+      <div class="foot-brand">dating <span>museum</span></div>
+      <div class="foot-line">Berlin</div>
+    </footer>
+  </main>
+
+  <script>
+    const heroVideo = document.querySelector('.hero video');
+    const playHeroVideo = () => {
+      heroVideo?.play().catch(() => {
+        /* Autoplay can be blocked until user interaction on some browsers. */
+      });
+    };
+
+    if (heroVideo) {
+      if (heroVideo.readyState >= 2) {
+        playHeroVideo();
+      } else {
+        heroVideo.addEventListener('loadeddata', playHeroVideo, { once: true });
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && heroVideo.paused) {
+          playHeroVideo();
+        }
+      });
+    }
+
+    const scrollTrigger = document.getElementById('scrollToEvents');
+    scrollTrigger?.addEventListener('click', () => {
+      document.getElementById('visit')?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.querySelectorAll('.faq-q').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        if (!item) return;
+        item.classList.toggle('open');
+      });
+    });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealEls.forEach((el) => io.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add('in-view'));
+    }
+  </script>
+</body>
+</html>
