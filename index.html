@@ -188,6 +188,26 @@
     }
     .ticket-btn:hover { background: var(--pink); color: var(--white); transform: translateY(-2px); }
 
+    .info-ticket-btn {
+      margin-top: 10px;
+      font-family: "Space Mono", monospace;
+      padding: 9px 14px;
+      text-decoration: none;
+      color: var(--bg);
+      background: var(--lime);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      display: inline-block;
+      transition: 0.2s ease;
+    }
+
+    .info-ticket-btn:hover { background: var(--pink); color: var(--white); transform: translateY(-1px); }
+
     /* ---------- Hero ---------- */
     .hero {
       position: relative;
@@ -494,7 +514,7 @@
     }
 
     /* FAQ — chat bubble style */
-    .faq { margin: 84px auto 0; max-width: 780px; }
+    .faq { margin: 84px auto 0; max-width: 780px; scroll-margin-top: 210px; }
     .faq h2 { text-align: center; }
     .faq .eyebrow-wrap { display: block; text-align: center; }
 
@@ -984,6 +1004,7 @@
         <small>Tickets</small>
         <h3>From €10</h3>
         <p>Reserve a same-day slot for tonight's rooms.</p>
+        <button class="info-ticket-btn" id="infoTicketButton" type="button">Get Tickets</button>
       </article>
     </div>
   </section>
@@ -1252,6 +1273,7 @@
     }
 
     const ticketButton = document.querySelector('.ticket-btn');
+    const infoTicketButton = document.getElementById('infoTicketButton');
     const ticketOverlay = document.getElementById('ticketOverlay');
     const closeTicketOverlay = document.getElementById('closeTicketOverlay');
     const postBuy = document.getElementById('postBuy');
@@ -1274,6 +1296,10 @@
 
     ticketButton?.addEventListener('click', (event) => {
       event.preventDefault();
+      openTicketOverlay();
+    });
+
+    infoTicketButton?.addEventListener('click', () => {
       openTicketOverlay();
     });
 
