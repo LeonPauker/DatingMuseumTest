@@ -95,36 +95,11 @@
   z-index: 50;
 }
 
-.site-header .ticker,
 .site-header .menu-list,
 .site-header .brand,
 .site-header .ticket-btn {
   pointer-events: auto;
 }
-
-
-    .ticker {
-      background: var(--pink);
-      color: var(--bg);
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 6px 0;
-      border-bottom: 2px solid var(--lime);
-    }
-    .ticker-track {
-      display: inline-block;
-      font-family: "Space Mono", monospace;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      animation: ticker 22s linear infinite;
-    }
-    .ticker-track span { margin: 0 22px; }
-    @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
 
     .site-header .row {
       display: flex;
@@ -747,13 +722,13 @@
     .ticket-overlay.open { display: flex; }
 
     .ticket-panel {
-      width: min(940px, 100%);
-      max-height: 90vh;
-      overflow: auto;
+      width: min(760px, 96vw);
+      max-height: calc(100vh - 16px);
+      overflow: hidden;
       border-radius: 24px;
       border: 2px solid var(--line);
-      background: linear-gradient(150deg, rgba(242,5,143,0.13), rgba(6,6,6,0.98));
-      padding: 26px;
+      background: #1a1a1a;
+      padding: 18px 20px 16px;
       position: relative;
     }
 
@@ -773,9 +748,9 @@
     }
 
     .ticket-title {
-      margin: 4px 0 8px;
+      margin: 2px 0 6px;
       font-family: "Unbounded", sans-serif;
-      font-size: clamp(26px, 4.4vw, 46px);
+      font-size: clamp(22px, 4vw, 36px);
       text-transform: uppercase;
       line-height: 1.05;
     }
@@ -787,62 +762,247 @@
     }
 
     .ticket-grid {
-      margin-top: 22px;
+      margin-top: 12px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      gap: 10px;
     }
 
     .ticket-card {
       border: 2px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      background: rgba(13, 13, 13, 0.9);
-      display: grid;
-      gap: 8px;
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(13,13,13,0.9);
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ticket-card:hover {
+      border-color: var(--pink);
+    }
+
+    .ticket-card.selected {
+      border-color: var(--pink);
+      background: rgba(242,5,143,0.1);
+    }
+
+    .ticket-icon {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 6px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ticket-icon img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .ticket-icon .ticket-icon-pink {
+      opacity: 0;
+    }
+
+    .ticket-card.selected .ticket-icon .ticket-icon-gray {
+      opacity: 0;
+    }
+
+    .ticket-card.selected .ticket-icon .ticket-icon-pink {
+      opacity: 1;
     }
 
     .ticket-card h3 {
-      margin: 0;
+      margin: 0 0 2px;
       font-family: "Unbounded", sans-serif;
-      font-size: 20px;
+      font-size: 13px;
       text-transform: uppercase;
     }
 
     .ticket-price {
-      margin: 0;
+      margin: 0 0 2px;
       color: var(--lime);
       font-family: "Space Mono", monospace;
-      font-size: 14px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: 700;
     }
 
-    .buy-btn {
-      justify-self: start;
-      margin-top: 6px;
-      font-family: "Space Mono", monospace;
-      border: 0;
+    .ticket-desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .ticket-option-qty {
+      margin-top: auto;
+      padding-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ticket-option-btn {
+      width: 28px;
+      height: 28px;
       border-radius: 999px;
-      padding: 10px 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s ease;
+    }
+
+    .ticket-option-btn:hover {
+      border-color: var(--pink);
+      color: var(--pink);
+    }
+
+    .ticket-option-count {
+      min-width: 28px;
+      text-align: center;
+      font-family: "Unbounded", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .ticket-controls {
+      margin-top: 12px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .ticket-ctrl-label {
+      display: block;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .ticket-date-wrap { flex: 1 1 200px; }
+
+    .ticket-date-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 8px 12px;
+      min-height: 58px;
+      background: var(--bg);
+    }
+
+    .ticket-date-field input {
+      background: transparent;
+      border: none;
+      color: var(--white);
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      outline: none;
+      flex: 1;
+    }
+
+    .ticket-date-field input::placeholder {
+      color: var(--muted);
+      opacity: 1;
+    }
+
+    .ticket-date-icon {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      display: block;
+      flex: 0 0 auto;
+    }
+
+    .ticket-summary-wrap { flex: 1 1 200px; }
+
+    .ticket-summary-count {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 58px;
+      padding: 0 12px;
+      border-radius: 12px;
+      border: 2px solid var(--line);
+      background: var(--bg);
+      font-family: "Unbounded", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .ticket-divider {
+      margin: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .ticket-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .ticket-total-label {
+      display: block;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .ticket-total-price {
+      font-family: "Unbounded", sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--pink);
+    }
+
+    .ticket-register-btn {
+      font-family: "Space Mono", monospace;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 14px;
+      background: var(--pink);
+      color: var(--white);
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.09em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--bg);
-      background: var(--lime);
       cursor: pointer;
       transition: 0.2s ease;
     }
 
-    .buy-btn:hover { background: var(--pink); color: var(--white); }
+    .ticket-register-btn:hover {
+      background: var(--pink-deep);
+      transform: translateY(-2px);
+    }
 
     .post-buy {
-      margin-top: 18px;
+      margin-top: 10px;
       border: 2px solid rgba(215,255,43,0.35);
       border-radius: 18px;
       background: rgba(215,255,43,0.06);
-      padding: 18px;
+      padding: 12px;
       display: none;
     }
 
@@ -850,7 +1010,7 @@
 
     .post-buy p {
       margin: 0;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .post-buy-form {
@@ -943,32 +1103,29 @@
       .menu-list { display: none; }
       .gallery-caption { flex-direction: column; align-items: flex-start; }
       .hero-stamp { width: 84px; height: 84px; }
-      .ticket-grid { grid-template-columns: 1fr; }
+      .ticket-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .stats-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-height: 860px) {
+      .ticket-panel { padding: 14px 16px 12px; }
+      .ticket-card { padding: 10px; }
+      .ticket-desc { display: none; }
+      .ticket-controls { margin-top: 10px; }
+      .ticket-divider { margin: 10px 0; }
+      .ticket-total-price { font-size: 22px; }
+      .ticket-register-btn { padding: 10px 16px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .reveal { opacity: 1; transform: none; transition: none; }
       .scroll-indicator .arrow { animation: none; }
-      .ticker-track { animation: none; }
     }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <div class="ticker">
-      <div class="ticker-track">
-        <span>★ KINKY EVENT — EVERY SATURDAY</span>
-        <span>★ STUDENTS PARTY — EVERY THURSDAY</span>
-        <span>★ TICKETS FROM €10</span>
-        <span>★ 10961 BERLIN KREUZBERG</span>
-        <span>★ KINKY EVENT — EVERY SATURDAY</span>
-        <span>★ STUDENTS PARTY — EVERY THURSDAY</span>
-        <span>★ TICKETS FROM €10</span>
-        <span>★ 10961 BERLIN KREUZBERG</span>
-      </div>
-    </div>
     <div class="row">
       <a class="brand" href="./index.html#top" aria-label="Dating Museum home">
         <img class="brand-logo" src="./assets/images/Logo.png" alt="Dating Museum Logo" />
@@ -983,7 +1140,7 @@
 
   <section class="hero" id="top">
     <video autoplay loop muted playsinline preload="auto" poster="./assets/images/History2.png" aria-label="Dating Museum Ambience">
-      <source src="./assets/Video/VideoMuseumTest1.mov" type="video/quicktime" />
+      <source src="./assets/Video/VideoMuseumTest2.mov" type="video/quicktime" />
       <img src="./assets/images/History2.png" alt="Dating Museum Ambience" />
     </video>
 
@@ -1055,6 +1212,18 @@
         <div class="slider-track" style="display:flex; transition:transform 0.45s ease; will-change:transform;">
           <div class="slider-slide" style="min-width:100%; position:relative;">
             <div class="duo" style="aspect-ratio:16/9;">
+              <img src="./assets/images/FirstImpression.png" alt="First Impression" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+            </div>
+            <div class="gallery-caption">
+              <div class="gallery-caption-text">
+                <h3>First Impression</h3>
+                <p>The very first glance, the first smile, the moment everything starts.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="slider-slide" style="min-width:100%; position:relative;">
+            <div class="duo" style="aspect-ratio:16/9;">
               <img src="./assets/images/RedflagComputerFrau.png" alt="Red Flag Room" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
             </div>
             <div class="gallery-caption">
@@ -1073,6 +1242,18 @@
               <div class="gallery-caption-text">
                 <h3>History of Meeting</h3>
                 <p>Step into the past and re-enact iconic scenes of how people used to meet, from candlelit courtship to chance encounters.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="slider-slide" style="min-width:100%; position:relative;">
+            <div class="duo" style="aspect-ratio:16/9;">
+              <img src="./assets/images/Broken.png" alt="Broken" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+            </div>
+            <div class="gallery-caption">
+              <div class="gallery-caption-text">
+                <h3>Broken</h3>
+                <p>A room for endings, healing, and what remains after love changes shape.</p>
               </div>
             </div>
           </div>
@@ -1100,6 +1281,42 @@
               </div>
             </div>
           </div>
+
+          <div class="slider-slide" style="min-width:100%; position:relative;">
+            <div class="duo" style="aspect-ratio:16/9;">
+              <img src="./assets/images/VegasMarriage.png" alt="Vegas" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+            </div>
+            <div class="gallery-caption">
+              <div class="gallery-caption-text">
+                <h3>Vegas</h3>
+                <p>Impulse, glamour and chaos: a playful tribute to wild, unforgettable choices.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="slider-slide" style="min-width:100%; position:relative;">
+            <div class="duo" style="aspect-ratio:16/9;">
+              <img src="./assets/images/Ghost1.png" alt="Ghost" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+            </div>
+            <div class="gallery-caption">
+              <div class="gallery-caption-text">
+                <h3>Ghost</h3>
+                <p>Messages unsent, calls unanswered, and the quiet traces of what disappeared.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="slider-slide" style="min-width:100%; position:relative;">
+            <div class="duo" style="aspect-ratio:16/9;">
+              <img src="./assets/images/Barday.png" alt="Bar" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+            </div>
+            <div class="gallery-caption">
+              <div class="gallery-caption-text">
+                <h3>Bar</h3>
+                <p>Neon lights, loud laughs and spontaneous conversations deep into the night.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Pfeil Links -->
@@ -1114,15 +1331,21 @@
           <span onclick="goToSlide(1)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
           <span onclick="goToSlide(2)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
           <span onclick="goToSlide(3)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
+          <span onclick="goToSlide(4)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
+          <span onclick="goToSlide(5)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
+          <span onclick="goToSlide(6)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
+          <span onclick="goToSlide(7)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
+          <span onclick="goToSlide(8)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
         </div>
       </div>
 
     </section>
 
+  
     <section class="wrap reveal" style="margin-top: 76px; scroll-margin-top: 160px;" id="events">
       <span class="eyebrow">Night Program</span>
-      <h2 class="section-title">Two nights, <span class="lime">already</span> regulars</h2>
-      <p class="section-text">Kinky Event runs every Saturday. Students Party runs every Thursday. Both are already part of the house calendar.</p>
+      <h2 class="section-title">One night, <span class="lime">already</span> regular</h2>
+      <p class="section-text">Kinky Event runs every Saturday. Students Party runs every Thursday. Both are already part of the house calendar. Kinky Event runs every Saturday. Students Party runs every Thursday. Both are already part of the house calendar.</p>
 
       <div class="event-grid">
         <article class="event-card">
@@ -1132,7 +1355,7 @@
           <p>Our signature late-night format — playful, immersive and run under strict consent-first moderation.</p>
         </article>
         <article class="event-card">
-          <span class="tag">Live</span>
+          <span class="tag">Coming soon</span>
           <h3>Students Party</h3>
           <p class="event-time">Every Thursday Night</p>
           <p>Lower price, high energy. Games, music and social installations built for students to connect.</p>
@@ -1189,36 +1412,99 @@
 
   <div class="ticket-overlay" id="ticketOverlay" aria-hidden="true">
     <div class="ticket-panel" role="dialog" aria-modal="true" aria-labelledby="ticketTitle">
-      <button class="ticket-close" type="button" id="closeTicketOverlay" aria-label="Close ticket panel">×</button>
+      <button class="ticket-close" type="button" id="closeTicketOverlay" aria-label="Close">×</button>
+
       <span class="eyebrow">Tickets</span>
-      <h2 class="ticket-title" id="ticketTitle">Choose your ticket</h2>
-      <p class="ticket-sub">Pick one of the available options below. Prices are the same as listed on this website.</p>
+      <h2 class="ticket-title" id="ticketTitle">Get your ticket</h2>
 
       <div class="ticket-grid" id="ticketGrid">
-        <article class="ticket-card">
-          <h3>Museum Ticket Student</h3>
-          <p class="ticket-price">€10</p>
-          <button class="buy-btn" type="button">Buy now</button>
+        <article class="ticket-card" data-price="15">
+          <div class="ticket-icon" aria-hidden="true">
+            <img class="ticket-icon-gray" src="./assets/Icons/Ticket_Regular_Grau.png" alt="" />
+            <img class="ticket-icon-pink" src="./assets/Icons/Ticket_Regular_Pink.png" alt="" />
+          </div>
+          <h3>Regular Ticket</h3>
+          <p class="ticket-price">15€</p>
+          <p class="ticket-desc">Regular admission for visiting all exhibition rooms.</p>
+          <div class="ticket-option-qty" aria-label="Regular Ticket quantity controls">
+            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease Regular Ticket quantity">−</button>
+            <span class="ticket-option-count">00</span>
+            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase Regular Ticket quantity">+</button>
+          </div>
         </article>
-        <article class="ticket-card">
-          <h3>Museum Ticket Regular</h3>
-          <p class="ticket-price">€15</p>
-          <button class="buy-btn" type="button">Buy now</button>
+
+        <article class="ticket-card" data-price="10">
+          <div class="ticket-icon" aria-hidden="true">
+            <img class="ticket-icon-gray" src="./assets/Icons/Ticket_Reduced_Grau.png" alt="" />
+            <img class="ticket-icon-pink" src="./assets/Icons/Ticket_Reduced_Pink.png" alt="" />
+          </div>
+          <h3>Reduced Ticket</h3>
+          <p class="ticket-price">10€</p>
+          <p class="ticket-desc">Admission for students, trainees, and pupils.</p>
+          <div class="ticket-option-qty" aria-label="Reduced Ticket quantity controls">
+            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease Reduced Ticket quantity">−</button>
+            <span class="ticket-option-count">00</span>
+            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase Reduced Ticket quantity">+</button>
+          </div>
         </article>
-        <article class="ticket-card">
-          <h3>Event Ticket Student</h3>
-          <p class="ticket-price">€20</p>
-          <button class="buy-btn" type="button">Buy now</button>
+
+        <article class="ticket-card" data-price="45">
+          <div class="ticket-icon" aria-hidden="true">
+            <img class="ticket-icon-gray" src="./assets/Icons/Workshop_Grau.png" alt="" />
+            <img class="ticket-icon-pink" src="./assets/Icons/Workshop_Pink.png" alt="" />
+          </div>
+          <h3>Workshop</h3>
+          <p class="ticket-price">45€</p>
+          <p class="ticket-desc">Choose one of the four workshop options we offer.</p>
+          <div class="ticket-option-qty" aria-label="Workshop quantity controls">
+            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease Workshop quantity">−</button>
+            <span class="ticket-option-count">00</span>
+            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase Workshop quantity">+</button>
+          </div>
         </article>
-        <article class="ticket-card">
-          <h3>Event Ticket Regular</h3>
-          <p class="ticket-price">€25</p>
-          <button class="buy-btn" type="button">Buy now</button>
+
+        <article class="ticket-card" data-price="25">
+          <div class="ticket-icon" aria-hidden="true">
+            <img class="ticket-icon-gray" src="./assets/Icons/Event_Grau.png" alt="" />
+            <img class="ticket-icon-pink" src="./assets/Icons/Event_Pink.png" alt="" />
+          </div>
+          <h3>Club / Event Night</h3>
+          <p class="ticket-price">25€</p>
+          <p class="ticket-desc">Special ticket for current events. More information on Instagram.</p>
+          <div class="ticket-option-qty" aria-label="Club or Event Night quantity controls">
+            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease Club or Event Night quantity">−</button>
+            <span class="ticket-option-count">00</span>
+            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase Club or Event Night quantity">+</button>
+          </div>
         </article>
       </div>
 
+      <div class="ticket-controls">
+        <div class="ticket-date-wrap">
+          <label class="ticket-ctrl-label">Select visit date</label>
+          <div class="ticket-date-field">
+            <input type="text" id="visitDate" placeholder="mm/dd/yyyy" inputmode="numeric" autocomplete="off" maxlength="10" aria-label="Visit date in month slash day slash year format" oninput="this.value = formatVisitDateInput(this.value)" onblur="this.value = normalizeVisitDate(this.value)" />
+            <img class="ticket-date-icon" src="./assets/Icons/Calender.png" alt="Calendar icon" />
+          </div>
+        </div>
+        <div class="ticket-summary-wrap">
+          <label class="ticket-ctrl-label">Selected tickets</label>
+          <div class="ticket-summary-count" id="ticketCount">00</div>
+        </div>
+      </div>
+
+      <div class="ticket-divider"></div>
+
+      <div class="ticket-footer">
+        <div class="ticket-total-wrap">
+          <span class="ticket-total-label">Total amount</span>
+          <span class="ticket-total-price" id="ticketTotal">0€</span>
+        </div>
+        <button class="ticket-register-btn" type="button" id="ticketRegisterBtn">Registration</button>
+      </div>
+
       <section class="post-buy" id="postBuy">
-        <p>Thanks for buying, but we are not existing right now. Put your e-mail here so we can text you if its exist.</p>
+        <p>We're not live yet — leave your email and we'll notify you at launch.</p>
         <form class="post-buy-form" id="postBuyForm">
           <input type="email" id="notifyEmail" placeholder="your@email.com" required />
           <button type="submit">Notify me</button>
@@ -1249,6 +1535,8 @@
       </div>
     </div>
   </div>
+
+  <a class="ticket-btn" href="#visit">Get Tickets</a>
 
   <script>
     const heroVideo = document.querySelector('.hero video');
@@ -1346,15 +1634,149 @@
       }
     });
 
-    document.querySelectorAll('.buy-btn').forEach((button) => {
-      button.addEventListener('click', () => {
-        const card = button.closest('.ticket-card');
-        const ticketName = card?.querySelector('h3')?.textContent?.trim() ?? 'Unknown ticket';
-        const ticketPrice = card?.querySelector('.ticket-price')?.textContent?.trim() ?? 'Unknown price';
-        selectedTicket = `${ticketName} (${ticketPrice})`;
-        postBuy?.classList.add('show');
-        postBuy?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const visitDateInput = document.getElementById('visitDate');
+    const ticketCountEl = document.getElementById('ticketCount');
+    const ticketCards = Array.from(document.querySelectorAll('.ticket-card'));
+
+    const getSelectedTickets = () => ticketCards
+      .map((card) => ({
+        card,
+        title: card.querySelector('h3')?.textContent?.trim() || 'Ticket',
+        price: parseInt(card.dataset.price, 10),
+        quantity: parseInt(card.dataset.quantity || '0', 10)
+      }))
+      .filter((item) => item.quantity > 0);
+
+    const setTicketQuantity = (card, quantity) => {
+      const safeQuantity = Math.max(0, quantity);
+      card.dataset.quantity = String(safeQuantity);
+      card.classList.toggle('selected', safeQuantity > 0);
+
+      const countEl = card.querySelector('.ticket-option-count');
+      if (countEl) countEl.textContent = String(safeQuantity).padStart(2, '0');
+
+      updateTotal();
+    };
+
+    ticketCards.forEach((card) => {
+      setTicketQuantity(card, 0);
+
+      card.addEventListener('click', (event) => {
+        if (event.target.closest('.ticket-option-btn')) return;
+        const currentQuantity = parseInt(card.dataset.quantity || '0', 10);
+        setTicketQuantity(card, currentQuantity > 0 ? 0 : 1);
       });
+
+      card.querySelector('.ticket-option-minus')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const currentQuantity = parseInt(card.dataset.quantity || '0', 10);
+        setTicketQuantity(card, currentQuantity - 1);
+      });
+
+      card.querySelector('.ticket-option-plus')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const currentQuantity = parseInt(card.dataset.quantity || '0', 10);
+        setTicketQuantity(card, currentQuantity + 1);
+      });
+    });
+
+    const clampDatePart = (value, min, max) => {
+      if (!value) return '';
+      const numericValue = parseInt(value, 10);
+      if (Number.isNaN(numericValue)) return '';
+      return String(Math.min(Math.max(numericValue, min), max)).padStart(2, '0');
+    };
+
+    const formatVisitDateInput = (value) => {
+      const digits = value.replace(/\D/g, '').slice(0, 8);
+      if (!digits) return '';
+
+      let cursor = 0;
+      let month = '';
+      let day = '';
+      let year = '';
+
+      const remainingForMonth = digits.slice(cursor);
+      if (remainingForMonth.length >= 2) {
+        month = clampDatePart(remainingForMonth.slice(0, 2), 1, 12);
+        cursor += 2;
+      } else if (remainingForMonth.length === 1) {
+        month = remainingForMonth > '1' ? `0${remainingForMonth}` : remainingForMonth;
+        cursor += remainingForMonth > '1' ? 1 : remainingForMonth.length;
+      }
+
+      const remainingForDay = digits.slice(cursor);
+      if (remainingForDay.length >= 2) {
+        day = clampDatePart(remainingForDay.slice(0, 2), 1, 31);
+        cursor += 2;
+      } else if (remainingForDay.length === 1) {
+        day = remainingForDay > '3' ? `0${remainingForDay}` : remainingForDay;
+        cursor += remainingForDay > '3' ? 1 : remainingForDay.length;
+      }
+
+      year = digits.slice(cursor, cursor + 4);
+
+      let formatted = month;
+      if (digits.length > 1 || month.length === 2) {
+        formatted += '/';
+      }
+      if (day) {
+        formatted += day;
+      }
+      if (cursor > 2 || day.length === 2) {
+        formatted += '/';
+      }
+      if (year) {
+        formatted += year;
+      }
+
+      return formatted;
+    };
+
+    const normalizeVisitDate = (value) => {
+      const formatted = formatVisitDateInput(value.trim());
+      const match = formatted.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      return match ? formatted : formatted.replace(/\/?$/, '');
+    };
+
+    visitDateInput?.addEventListener('input', () => {
+      visitDateInput.value = formatVisitDateInput(visitDateInput.value);
+    });
+
+    visitDateInput?.addEventListener('blur', () => {
+      visitDateInput.value = normalizeVisitDate(visitDateInput.value);
+    });
+
+    function updateTotal() {
+      const selectedTickets = getSelectedTickets();
+      const totalCount = selectedTickets.reduce((sum, item) => sum + item.quantity, 0);
+      const totalPrice = selectedTickets.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      if (ticketCountEl) ticketCountEl.textContent = String(totalCount).padStart(2, '0');
+      const el = document.getElementById('ticketTotal');
+      if (el) el.textContent = `${totalPrice}€`;
+    }
+
+    document.getElementById('ticketRegisterBtn')?.addEventListener('click', () => {
+      const selectedTickets = getSelectedTickets();
+      if (selectedTickets.length === 0) {
+        alert('Please select a ticket first.');
+        return;
+      }
+
+      const normalizedVisitDate = normalizeVisitDate(visitDateInput?.value || '');
+      if (visitDateInput) visitDateInput.value = normalizedVisitDate;
+
+      selectedTicket = selectedTickets
+        .map((item) => `${item.title} x${item.quantity}`)
+        .join(', ');
+
+      if (normalizedVisitDate) {
+        selectedTicket += ` | Visit date: ${normalizedVisitDate}`;
+      }
+
+      document.getElementById('postBuy')?.classList.add('show');
+      document.getElementById('postBuy')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      hitCount(PURCHASES_KEY).then(refreshStats).catch(() => null);
     });
 
     postBuyForm?.addEventListener('submit', async (event) => {
@@ -1472,14 +1894,6 @@
 
     trackVisit();
 
-    document.querySelectorAll('.buy-btn').forEach((button) => {
-      button.addEventListener('click', () => {
-        hitCount(PURCHASES_KEY)
-          .then(refreshStats)
-          .catch(() => null);
-      });
-    });
-
     postBuyForm?.addEventListener('submit', () => {
       hitCount(SIGNUPS_KEY)
         .then(refreshStats)
@@ -1533,7 +1947,7 @@
 
     // Slider
     let currentSlide = 0;
-    const totalSlides = 4;
+    const totalSlides = 9;
 
     function updateSlider() {
       const track = document.querySelector('.slider-track');
@@ -1563,7 +1977,5 @@
     });
 
   </script>
-
-  <a class="ticket-btn" href="#visit">Get Tickets</a>
 </body>
 </html>
