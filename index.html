@@ -28,7 +28,7 @@
       line-height: 1.5;
       overflow-x: hidden;
     }
-    
+
     .wrap { width: min(1180px, 92vw); margin: 0 auto; }
 
     .eyebrow {
@@ -50,7 +50,6 @@
       letter-spacing: -0.01em;
     }
 
-    /* signature device #1: stamp/sticker badge, rotated, dashed border like a club entry stamp */
     .stamp {
       display: inline-flex;
       flex-direction: column;
@@ -70,37 +69,21 @@
       background: rgba(215,255,43,0.06);
     }
 
-    /* signature device #2: duotone photo treatment, pink/lime, resolves to color on hover */
     .duo { position: relative; overflow: hidden; }
-   .duo img { filter: none !important; transform: none !important; }
-.duo::after { display: none !important; }
+    .duo img { filter: none !important; transform: none !important; }
+    .duo::after { display: none !important; }
 
-    .duo::after {
-      content: "";
+    /* ========== HEADER ========== */
+    .site-header {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--pink), var(--lime));
-      mix-blend-mode: color;
-      opacity: 0.85;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
+      inset: 0 0 auto 0;
+      z-index: 50;
     }
-    .duo:hover img { filter: grayscale(0) contrast(1.05) brightness(1); transform: scale(1.03); }
-    .duo:hover::after { opacity: 0; }
-
-    /* ---------- Header ---------- */
- .site-header {
-  position: absolute;
-  inset: 0 0 auto 0;
-  z-index: 50;
-}
-
-.site-header .menu-list,
-.site-header .brand,
-.site-header .ticket-btn {
-  pointer-events: auto;
-}
-
+    .site-header .menu-list,
+    .site-header .brand,
+    .site-header .ticket-btn {
+      pointer-events: auto;
+    }
     .site-header .row {
       display: flex;
       align-items: center;
@@ -108,7 +91,6 @@
       padding: 12px 18px;
       background: transparent;
     }
-
     .brand {
       display: inline-flex;
       align-items: center;
@@ -116,14 +98,12 @@
       text-decoration: none;
       color: var(--white);
     }
-
     .brand-logo {
-      width: 120px;
-      height: 120px;
+      width: 90px;
+      height: 90px;
       object-fit: contain;
       display: block;
     }
-
     .brand-text {
       font-family: "Unbounded", sans-serif;
       font-size: 15px;
@@ -138,7 +118,6 @@
       align-items: center;
       gap: 6px;
     }
-
     .menu-list a {
       font-family: "Space Mono", monospace;
       color: var(--lime);
@@ -152,27 +131,96 @@
     }
     .menu-list a:hover { color: var(--lime); }
 
-.ticket-btn {
-  position: fixed;
-  top: 50px;
-  right: 12px;
-  z-index: 60;
-  font-family: "Space Mono", monospace;
-  padding: 16px 28px;
-  text-decoration: none;
-  color: var(--bg);
-  background: var(--lime);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border-radius: 14px;
-  transition: 0.2s ease;
-  display: inline-block;
-    box-shadow: 0 0 18px 4px rgba(242, 5, 143, 0.6);
-}
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      cursor: pointer;
+      margin-left: auto;
+      padding: 0;
+      z-index: 60;
+      flex-shrink: 0;
+    }
+    .hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+    /* Mobile Nav Drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 55;
+      background: rgba(6,6,6,0.97);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      padding: 40px 20px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: "Unbounded", sans-serif;
+      color: var(--white);
+      text-decoration: none;
+      font-size: clamp(26px, 8vw, 42px);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      transition: color 0.2s ease;
+    }
+    .mobile-nav a:hover { color: var(--lime); }
+    .mobile-nav .mobile-ticket-link {
+      margin-top: 12px;
+      font-family: "Space Mono", monospace;
+      padding: 16px 32px;
+      background: var(--lime);
+      color: var(--bg);
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
 
+    .ticket-btn {
+      position: fixed;
+      top: 50px;
+      right: 12px;
+      z-index: 60;
+      font-family: "Space Mono", monospace;
+      padding: 16px 28px;
+      text-decoration: none;
+      color: var(--bg);
+      background: var(--lime);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 14px;
+      transition: 0.2s ease;
+      display: inline-block;
+      box-shadow: 0 0 18px 4px rgba(242, 5, 143, 0.6);
+    }
     .ticket-btn:hover { background: var(--pink); color: var(--white); transform: translateY(-2px); }
 
     .info-ticket-btn {
@@ -192,18 +240,16 @@
       display: inline-block;
       transition: 0.2s ease;
     }
-
     .info-ticket-btn:hover { background: var(--pink); color: var(--white); transform: translateY(-1px); }
 
-    /* ---------- Hero ---------- */
+    /* ========== HERO ========== */
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: 100svh;
       overflow: hidden;
       display: flex;
       align-items: stretch;
     }
-
     .hero video {
       position: absolute;
       inset: 0;
@@ -212,7 +258,6 @@
       object-fit: cover;
       filter: grayscale(0.3) contrast(1.1);
     }
-
     .hero::before {
       content: "";
       position: absolute;
@@ -224,7 +269,6 @@
       z-index: 1;
       pointer-events: none;
     }
-
     .hero-inner {
       position: relative;
       z-index: 3;
@@ -233,7 +277,6 @@
       grid-template-rows: 1fr auto;
       padding-top: 110px;
     }
-
     .hero-center {
       display: flex;
       flex-direction: column;
@@ -242,18 +285,11 @@
       text-align: center;
       padding: 0 16px;
     }
-
-    .hero-stamp {
-      width: 108px;
-      height: 108px;
-      margin-bottom: 26px;
-    }
-
     .hero-copy {
       font-family: "Unbounded", sans-serif;
       max-width: 980px;
       margin: 0;
-      font-size: clamp(32px, 6.4vw, 76px);
+      font-size: clamp(28px, 7vw, 76px);
       line-height: 1.02;
       font-weight: 900;
       letter-spacing: -0.02em;
@@ -261,14 +297,13 @@
     }
     .hero-copy .pink { color: var(--pink); }
     .hero-copy .lime { color: var(--lime); }
-
     .hero-sub {
-      margin-top: 20px;
-      font-size: 16px;
+      margin-top: 16px;
+      font-size: clamp(14px, 3.5vw, 16px);
       color: var(--muted);
-      max-width: 460px;
+      max-width: 420px;
+      padding: 0 8px;
     }
-
     .scroll-indicator {
       margin: 0 auto 22px;
       text-align: center;
@@ -292,7 +327,7 @@
       50% { transform: translateY(4px); }
     }
 
-    /* ---------- Visitor info band ---------- */
+    /* ========== INFO BAND ========== */
     .info-band {
       position: relative;
       z-index: 3;
@@ -301,13 +336,11 @@
       border-bottom: 2px solid var(--lime);
       padding: 30px 0;
     }
-
     .info-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
-
     .info-card {
       min-height: 176px;
       padding: 26px;
@@ -318,7 +351,6 @@
     }
     .info-card:nth-child(2) { background: linear-gradient(150deg, rgba(215,255,43,0.08), rgba(0,0,0,0.4)); }
     .info-card:hover { transform: rotate(-1deg) translateY(-2px); border-color: var(--pink); }
-
     .info-card small {
       font-family: "Space Mono", monospace;
       text-transform: uppercase;
@@ -326,20 +358,18 @@
       font-weight: 700;
       color: var(--lime);
     }
-
     .info-card h3 {
       font-family: "Unbounded", sans-serif;
       margin: 10px 0 10px;
-      font-size: clamp(20px, 2vw, 27px);
+      font-size: clamp(16px, 2vw, 27px);
       font-weight: 700;
       line-height: 1.15;
       text-transform: uppercase;
     }
-
-    .info-card p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+    .info-card p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
     .info-card a { color: var(--pink); font-weight: 600; }
 
-    /* ---------- Main sections ---------- */
+    /* ========== MAIN ========== */
     .main { padding: 96px 0 60px; background: var(--bg); }
 
     .reveal {
@@ -352,7 +382,7 @@
     .section-title {
       font-family: "Unbounded", sans-serif;
       margin: 12px 0 0;
-      font-size: clamp(28px, 4.2vw, 54px);
+      font-size: clamp(24px, 5vw, 54px);
       line-height: 1.05;
       font-weight: 800;
       letter-spacing: -0.01em;
@@ -360,12 +390,11 @@
     }
     .section-title .pink { color: var(--pink); }
     .section-title .lime { color: var(--lime); }
-
     .section-text {
       margin-top: 16px;
       color: var(--muted);
       max-width: 760px;
-      font-size: 17px;
+      font-size: clamp(15px, 3.5vw, 17px);
     }
 
     /* Events */
@@ -375,24 +404,21 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
-
     .event-card {
       border-radius: 24px;
       border: 2px solid var(--pink);
-      padding: 28px;
+      padding: 24px;
       background: rgba(242,5,143,0.06);
       transition: 0.25s ease;
     }
     .event-card:hover { transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 18px 40px rgba(242,5,143,0.25); }
-
     .event-card h3 {
       font-family: "Unbounded", sans-serif;
       margin: 12px 0 6px;
-      font-size: 28px;
+      font-size: clamp(20px, 4vw, 28px);
       font-weight: 800;
       text-transform: uppercase;
     }
-
     .tag {
       display: inline-block;
       font-family: "Space Mono", monospace;
@@ -405,7 +431,6 @@
       border-radius: 999px;
       padding: 5px 11px;
     }
-
     .event-time {
       font-family: "Space Mono", monospace;
       color: var(--lime);
@@ -415,7 +440,6 @@
       letter-spacing: 0.06em;
       margin: 10px 0;
     }
-
     .chip-label {
       font-family: "Space Mono", monospace;
       font-size: 11px;
@@ -441,70 +465,37 @@
     }
     .chip:nth-child(even) { transform: rotate(1deg); border-color: var(--lime); color: var(--lime); }
 
-    /* Installations gallery */
-    .gallery {
-      margin-top: 40px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 30px;
-    }
-
-    .gallery-item {
-      position: relative;
-      border-radius: 26px;
-      overflow: hidden;
-      border: 2px solid var(--line);
-      background: var(--bg-soft);
-    }
-
-    .gallery-item .duo { aspect-ratio: 16 / 9; }
-
+    /* Gallery / Slider */
     .gallery-caption {
       position: absolute;
       inset: auto 0 0 0;
       z-index: 2;
-      padding: 26px 28px;
+      padding: 20px 22px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       gap: 20px;
       background: linear-gradient(to top, rgba(6,6,6,0.92), transparent 85%);
     }
-
     .gallery-caption-text h3 {
       font-family: "Unbounded", sans-serif;
-      margin: 6px 0 8px;
-      font-size: clamp(22px, 3.2vw, 36px);
+      margin: 6px 0 6px;
+      font-size: clamp(18px, 4vw, 36px);
       font-weight: 800;
       text-transform: uppercase;
       color: var(--white);
     }
-
     .gallery-caption-text p {
       margin: 0;
       color: var(--muted);
       max-width: 620px;
-      font-size: 15px;
+      font-size: clamp(13px, 3vw, 15px);
     }
 
-    .gallery-note {
-      margin-top: 30px;
-      text-align: center;
-      font-family: "Space Mono", monospace;
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--bg);
-      background: var(--lime);
-      border-radius: 999px;
-      padding: 14px 0;
-    }
-
-    /* FAQ — chat bubble style */
+    /* FAQ */
     .faq { margin: 84px auto 0; max-width: 780px; scroll-margin-top: 210px; }
     .faq h2 { text-align: center; }
     .faq .eyebrow-wrap { display: block; text-align: center; }
-
     .faq-item {
       border-radius: 22px;
       border: 2px solid var(--line);
@@ -514,7 +505,6 @@
     }
     .faq-item:nth-child(odd) { border-color: rgba(242,5,143,0.4); }
     .faq-item:nth-child(even) { border-color: rgba(215,255,43,0.4); }
-
     .faq-q {
       width: 100%;
       background: transparent;
@@ -523,7 +513,7 @@
       text-align: left;
       padding: 18px 22px;
       font-family: "Space Grotesk", sans-serif;
-      font-size: 17px;
+      font-size: clamp(15px, 3.5vw, 17px);
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -531,7 +521,6 @@
       align-items: center;
       gap: 16px;
     }
-
     .faq-q .plus {
       font-family: "Unbounded", sans-serif;
       color: var(--lime);
@@ -541,7 +530,6 @@
       flex-shrink: 0;
     }
     .faq-item.open .faq-q .plus { transform: rotate(45deg); color: var(--pink); }
-
     .faq-a {
       display: none;
       padding: 0 22px 20px;
@@ -551,6 +539,7 @@
     }
     .faq-item.open .faq-a { display: block; }
 
+    /* Footer */
     footer {
       margin-top: 74px;
       border-top: 1px solid var(--line);
@@ -573,7 +562,6 @@
       text-transform: uppercase;
       color: var(--muted);
     }
-
     .admin-stats-btn {
       margin-top: 16px;
       border: 2px solid var(--line);
@@ -589,12 +577,9 @@
       cursor: pointer;
       transition: 0.2s ease;
     }
+    .admin-stats-btn:hover { border-color: var(--lime); color: var(--lime); }
 
-    .admin-stats-btn:hover {
-      border-color: var(--lime);
-      color: var(--lime);
-    }
-
+    /* Admin Modal */
     .admin-modal {
       position: fixed;
       inset: 0;
@@ -605,9 +590,7 @@
       justify-content: center;
       padding: 20px;
     }
-
     .admin-modal.open { display: flex; }
-
     .admin-modal-card {
       width: min(560px, 100%);
       border-radius: 22px;
@@ -615,7 +598,6 @@
       background: linear-gradient(145deg, rgba(242,5,143,0.1), rgba(6,6,6,0.98));
       padding: 22px;
     }
-
     .admin-modal-head {
       display: flex;
       justify-content: space-between;
@@ -623,7 +605,6 @@
       gap: 10px;
       margin-bottom: 14px;
     }
-
     .admin-modal-title {
       margin: 0;
       font-family: "Unbounded", sans-serif;
@@ -631,7 +612,6 @@
       text-transform: uppercase;
       line-height: 1.05;
     }
-
     .admin-modal-close {
       width: 36px;
       height: 36px;
@@ -642,12 +622,7 @@
       font-size: 18px;
       cursor: pointer;
     }
-
-    .admin-login {
-      display: grid;
-      gap: 10px;
-    }
-
+    .admin-login { display: grid; gap: 10px; }
     .admin-login input {
       min-height: 44px;
       border-radius: 999px;
@@ -658,7 +633,6 @@
       font-family: "Space Grotesk", sans-serif;
       font-size: 15px;
     }
-
     .admin-login button,
     .admin-refresh-btn {
       min-height: 44px;
@@ -674,7 +648,6 @@
       background: var(--lime);
       cursor: pointer;
     }
-
     .admin-err {
       margin: 2px 0 0;
       color: #ff7f7f;
@@ -684,17 +657,9 @@
       text-transform: uppercase;
       display: none;
     }
-
     .admin-err.show { display: block; }
-
-    .admin-stats {
-      display: none;
-      margin-top: 14px;
-      gap: 10px;
-    }
-
+    .admin-stats { display: none; margin-top: 14px; gap: 10px; }
     .admin-stats.show { display: grid; }
-
     .admin-stat-row {
       border: 1px solid var(--line);
       border-radius: 12px;
@@ -708,6 +673,7 @@
       letter-spacing: 0.06em;
     }
 
+    /* ========== TICKET OVERLAY ========== */
     .ticket-overlay {
       position: fixed;
       inset: 0;
@@ -716,26 +682,30 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 12px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
-
     .ticket-overlay.open { display: flex; }
 
     .ticket-panel {
-      width: min(760px, 96vw);
-      max-height: calc(100vh - 16px);
-      overflow: hidden;
+      width: min(760px, 100%);
+      max-height: calc(100svh - 24px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       border-radius: 24px;
       border: 2px solid var(--line);
       background: #1a1a1a;
-      padding: 18px 20px 16px;
+      padding: 18px 18px 16px;
       position: relative;
+      scrollbar-width: none;
     }
+    .ticket-panel::-webkit-scrollbar { display: none; }
 
     .ticket-close {
       position: absolute;
-      right: 16px;
-      top: 14px;
+      right: 14px;
+      top: 12px;
       width: 38px;
       height: 38px;
       border-radius: 999px;
@@ -745,29 +715,28 @@
       font-family: "Space Mono", monospace;
       font-size: 18px;
       cursor: pointer;
+      z-index: 2;
     }
-
     .ticket-title {
       margin: 2px 0 6px;
       font-family: "Unbounded", sans-serif;
-      font-size: clamp(22px, 4vw, 36px);
+      font-size: clamp(20px, 5vw, 36px);
       text-transform: uppercase;
       line-height: 1.05;
+      padding-right: 48px;
     }
-
     .ticket-sub {
       margin: 0;
       color: var(--muted);
       max-width: 660px;
+      font-size: 14px;
     }
-
     .ticket-grid {
       margin-top: 12px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
-
     .ticket-card {
       border: 2px solid var(--line);
       border-radius: 14px;
@@ -777,28 +746,22 @@
       transition: 0.2s ease;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
-
-    .ticket-card:hover {
-      border-color: var(--pink);
-    }
-
+    .ticket-card:hover { border-color: var(--pink); }
     .ticket-card.selected {
       border-color: var(--pink);
       background: rgba(242,5,143,0.1);
     }
-
     .ticket-icon {
-      width: 36px;
-      height: 36px;
-      margin-bottom: 6px;
+      width: 32px;
+      height: 32px;
+      margin-bottom: 4px;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
     .ticket-icon img {
       position: absolute;
       inset: 0;
@@ -806,70 +769,54 @@
       height: 100%;
       object-fit: contain;
     }
-
-    .ticket-icon .ticket-icon-pink {
-      opacity: 0;
-    }
-
-    .ticket-card.selected .ticket-icon .ticket-icon-gray {
-      opacity: 0;
-    }
-
-    .ticket-card.selected .ticket-icon .ticket-icon-pink {
-      opacity: 1;
-    }
-
+    .ticket-icon .ticket-icon-pink { opacity: 0; }
+    .ticket-card.selected .ticket-icon .ticket-icon-gray { opacity: 0; }
+    .ticket-card.selected .ticket-icon .ticket-icon-pink { opacity: 1; }
     .ticket-card h3 {
       margin: 0 0 2px;
       font-family: "Unbounded", sans-serif;
-      font-size: 13px;
+      font-size: clamp(11px, 2.5vw, 13px);
       text-transform: uppercase;
     }
-
     .ticket-price {
       margin: 0 0 2px;
       color: var(--lime);
       font-family: "Space Mono", monospace;
-      font-size: 16px;
+      font-size: clamp(14px, 3.5vw, 16px);
       font-weight: 700;
     }
-
     .ticket-desc {
       margin: 0;
       color: var(--muted);
       font-size: 11px;
       line-height: 1.25;
     }
-
     .ticket-option-qty {
       margin-top: auto;
-      padding-top: 4px;
+      padding-top: 6px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
     .ticket-option-btn {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 999px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.06);
       color: var(--white);
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: 0.2s ease;
+      /* Bigger tap target on mobile */
+      min-width: 36px;
+      min-height: 36px;
     }
-
-    .ticket-option-btn:hover {
-      border-color: var(--pink);
-      color: var(--pink);
-    }
-
+    .ticket-option-btn:hover { border-color: var(--pink); color: var(--pink); }
     .ticket-option-count {
       min-width: 28px;
       text-align: center;
@@ -877,14 +824,12 @@
       font-size: 16px;
       font-weight: 700;
     }
-
     .ticket-controls {
       margin-top: 12px;
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
     }
-
     .ticket-ctrl-label {
       display: block;
       font-family: "Space Mono", monospace;
@@ -894,9 +839,7 @@
       color: var(--muted);
       margin-bottom: 8px;
     }
-
-    .ticket-date-wrap { flex: 1 1 200px; }
-
+    .ticket-date-wrap { flex: 1 1 180px; }
     .ticket-date-field {
       display: flex;
       align-items: center;
@@ -904,10 +847,9 @@
       border: 2px solid var(--line);
       border-radius: 12px;
       padding: 8px 12px;
-      min-height: 58px;
+      min-height: 52px;
       background: var(--bg);
     }
-
     .ticket-date-field input {
       background: transparent;
       border: none;
@@ -916,29 +858,23 @@
       font-size: 12px;
       outline: none;
       flex: 1;
+      min-width: 0;
     }
-
-    .ticket-date-field input::placeholder {
-      color: var(--muted);
-      opacity: 1;
-    }
-
+    .ticket-date-field input::placeholder { color: var(--muted); opacity: 1; }
     .ticket-date-icon {
-      width: 38px;
-      height: 38px;
+      width: 34px;
+      height: 34px;
       object-fit: contain;
       display: block;
       flex: 0 0 auto;
     }
-
-    .ticket-summary-wrap { flex: 1 1 200px; }
-
+    .ticket-summary-wrap { flex: 1 1 120px; }
     .ticket-summary-count {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
-      min-height: 58px;
+      min-height: 52px;
       padding: 0 12px;
       border-radius: 12px;
       border: 2px solid var(--line);
@@ -948,19 +884,17 @@
       font-weight: 700;
       color: var(--white);
     }
-
     .ticket-divider {
       margin: 12px 0;
       border-top: 1px solid var(--line);
     }
-
     .ticket-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-
     .ticket-total-label {
       display: block;
       font-family: "Space Mono", monospace;
@@ -969,17 +903,15 @@
       letter-spacing: 0.1em;
       color: var(--muted);
     }
-
     .ticket-total-price {
       font-family: "Unbounded", sans-serif;
-      font-size: 26px;
+      font-size: clamp(22px, 5vw, 26px);
       font-weight: 800;
       color: var(--pink);
     }
-
     .ticket-register-btn {
       font-family: "Space Mono", monospace;
-      padding: 12px 20px;
+      padding: 14px 22px;
       border: none;
       border-radius: 14px;
       background: var(--pink);
@@ -990,13 +922,11 @@
       text-transform: uppercase;
       cursor: pointer;
       transition: 0.2s ease;
+      min-height: 48px;
     }
+    .ticket-register-btn:hover { background: var(--pink-deep); transform: translateY(-2px); }
 
-    .ticket-register-btn:hover {
-      background: var(--pink-deep);
-      transform: translateY(-2px);
-    }
-
+    /* Post Buy */
     .post-buy {
       margin-top: 10px;
       border: 2px solid rgba(215,255,43,0.35);
@@ -1005,24 +935,17 @@
       padding: 12px;
       display: none;
     }
-
     .post-buy.show { display: block; }
-
-    .post-buy p {
-      margin: 0;
-      font-size: 14px;
-    }
-
+    .post-buy p { margin: 0; font-size: 14px; }
     .post-buy-form {
       margin-top: 14px;
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-
     .post-buy-form input {
-      flex: 1 1 230px;
-      min-height: 44px;
+      flex: 1 1 200px;
+      min-height: 48px;
       border-radius: 999px;
       border: 2px solid var(--line);
       background: var(--bg);
@@ -1031,12 +954,11 @@
       font-family: "Space Grotesk", sans-serif;
       font-size: 15px;
     }
-
     .post-buy-form button {
-      min-height: 44px;
+      min-height: 48px;
       border: 0;
       border-radius: 999px;
-      padding: 0 16px;
+      padding: 0 18px;
       font-family: "Space Mono", monospace;
       font-size: 11px;
       font-weight: 700;
@@ -1046,7 +968,6 @@
       background: var(--lime);
       cursor: pointer;
     }
-
     .mail-sent {
       margin-top: 10px;
       color: var(--lime);
@@ -1056,9 +977,9 @@
       text-transform: uppercase;
       display: none;
     }
-
     .mail-sent.show { display: block; }
 
+    /* Stats Band */
     .stats-band {
       background: linear-gradient(180deg, var(--bg-soft), rgba(13, 13, 13, 0.5));
       border-top: 1px solid var(--line);
@@ -1066,20 +987,17 @@
       padding: 26px 0;
       display: none;
     }
-
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
-
     .stat-card {
       border: 2px solid var(--line);
       border-radius: 18px;
       padding: 18px 20px;
       background: rgba(242, 5, 143, 0.06);
     }
-
     .stat-number {
       margin: 0;
       font-family: "Unbounded", sans-serif;
@@ -1087,7 +1005,6 @@
       line-height: 1;
       color: var(--lime);
     }
-
     .stat-label {
       margin: 6px 0 0;
       font-family: "Space Mono", monospace;
@@ -1097,24 +1014,102 @@
       color: var(--muted);
     }
 
+    /* ========== RESPONSIVE ========== */
     @media (max-width: 980px) {
-      .info-grid, .event-grid { grid-template-columns: 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
+      .event-grid { grid-template-columns: 1fr; }
       .main { padding-top: 84px; }
       .menu-list { display: none; }
+      .hamburger { display: flex; }
       .gallery-caption { flex-direction: column; align-items: flex-start; }
-      .hero-stamp { width: 84px; height: 84px; }
-      .ticket-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .stats-grid { grid-template-columns: 1fr; }
+      .info-card { min-height: auto; padding: 20px; }
     }
 
-    @media (max-height: 860px) {
-      .ticket-panel { padding: 14px 16px 12px; }
-      .ticket-card { padding: 10px; }
+    @media (max-width: 600px) {
+      /* Header */
+      .site-header .row { padding: 10px 14px; }
+      .brand-logo { width: 70px; height: 70px; }
+
+      /* Ticket Button — smaller on mobile */
+      .ticket-btn {
+        top: auto;
+        bottom: 16px;
+        right: 16px;
+        padding: 14px 22px;
+        font-size: 10px;
+        border-radius: 12px;
+      }
+
+      /* Hero */
+      .hero-inner { padding-top: 90px; }
+      .hero-copy { font-size: clamp(26px, 8.5vw, 44px); }
+      .hero-sub { font-size: 14px; }
+
+      /* Info Band */
+      .info-band { padding: 20px 0; }
+      .info-grid { gap: 12px; }
+      .info-card { padding: 18px; border-radius: 16px; }
+      .info-card h3 { font-size: clamp(15px, 4vw, 20px); }
+
+      /* Main sections */
+      .main { padding: 60px 0 40px; }
+      .section-title { font-size: clamp(22px, 6.5vw, 36px); }
+
+      /* Events */
+      .event-grid { gap: 12px; }
+      .event-card { padding: 18px; border-radius: 18px; }
+      .event-card h3 { font-size: clamp(18px, 5vw, 24px); }
+
+      /* Slider captions */
+      .gallery-caption { padding: 14px 16px; }
+      .gallery-caption-text h3 { font-size: clamp(16px, 5vw, 24px); }
+      .gallery-caption-text p { font-size: 12px; }
+
+      /* FAQ */
+      .faq { margin-top: 60px; }
+      .faq-q { font-size: 15px; padding: 16px 18px; }
+      .faq-a { padding: 0 18px 16px; font-size: 14px; }
+
+      /* Ticket overlay */
+      .ticket-overlay { padding: 0; align-items: flex-end; }
+      .ticket-panel {
+        border-radius: 24px 24px 0 0;
+        max-height: 94svh;
+        width: 100%;
+        padding: 16px 14px 24px;
+      }
+      .ticket-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .ticket-card { padding: 10px; border-radius: 12px; }
+      .ticket-card h3 { font-size: 11px; }
       .ticket-desc { display: none; }
-      .ticket-controls { margin-top: 10px; }
-      .ticket-divider { margin: 10px 0; }
-      .ticket-total-price { font-size: 22px; }
-      .ticket-register-btn { padding: 10px 16px; }
+      .ticket-price { font-size: 14px; }
+      .ticket-option-btn { min-width: 34px; min-height: 34px; font-size: 16px; }
+      .ticket-controls { gap: 8px; }
+      .ticket-date-wrap, .ticket-summary-wrap { flex: 1 1 140px; }
+      .ticket-footer { gap: 12px; }
+      .ticket-register-btn { width: 100%; justify-content: center; text-align: center; }
+      .post-buy-form { flex-direction: column; }
+      .post-buy-form input { flex: 1 1 auto; }
+
+      /* Stats */
+      .stats-grid { grid-template-columns: 1fr; gap: 10px; }
+
+      /* Footer */
+      footer { padding: 28px 0 60px; }
+
+      /* Admin modal */
+      .admin-modal { padding: 12px; align-items: flex-end; }
+      .admin-modal-card { border-radius: 22px 22px 0 0; width: 100%; padding: 18px 16px 28px; }
+    }
+
+    @media (max-width: 380px) {
+      .ticket-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .ticket-card h3 { font-size: 10px; }
+      .hero-copy { font-size: clamp(23px, 9vw, 32px); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1125,6 +1120,7 @@
   </style>
 </head>
 <body>
+
   <header class="site-header">
     <div class="row">
       <a class="brand" href="./index.html#top" aria-label="Dating Museum home">
@@ -1135,15 +1131,27 @@
         <a href="#shop">Shop</a>
         <a href="#faq">FAQ</a>
       </nav>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
+
+  <!-- Mobile Nav Drawer -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="#events" class="mobile-nav-link">Events</a>
+    <a href="#shop" class="mobile-nav-link">Shop</a>
+    <a href="#faq" class="mobile-nav-link">FAQ</a>
+    <button class="mobile-ticket-link" id="mobileTicketBtn" type="button">Get Tickets</button>
+  </nav>
 
   <section class="hero" id="top">
     <video autoplay loop muted playsinline preload="auto" poster="./assets/images/History2.png" aria-label="Dating Museum Ambience">
       <source src="./assets/Video/VideoMuseumTest2.mov" type="video/quicktime" />
       <img src="./assets/images/History2.png" alt="Dating Museum Ambience" />
     </video>
-
     <div class="hero-inner">
       <div class="hero-center">
         <p class="hero-copy">skip the swipe.<br /><span class="pink">feel</span> the <span class="lime">spark.</span></p>
@@ -1207,9 +1215,8 @@
       <p class="section-text">Step inside our world. Each room is a unique, immersive encounter designed to spark real connection.</p>
 
       <div class="gallery-slider" style="position:relative; border-radius:26px; overflow:hidden; border:2px solid rgba(255,255,255,0.14); background:#0d0d0d; margin-top:40px;">
-
-        <!-- Bilder -->
         <div class="slider-track" style="display:flex; transition:transform 0.45s ease; will-change:transform;">
+
           <div class="slider-slide" style="min-width:100%; position:relative;">
             <div class="duo" style="aspect-ratio:16/9;">
               <img src="./assets/images/FirstImpression.png" alt="First Impression" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
@@ -1317,16 +1324,10 @@
               </div>
             </div>
           </div>
+
         </div>
 
-        <!-- Pfeil Links -->
-        <button onclick="moveSlider(-1)" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);z-index:10;background:rgba(6,6,6,0.7);border:2px solid rgba(255,255,255,0.2);color:#fff;border-radius:999px;width:44px;height:44px;font-size:20px;cursor:pointer;transition:0.2s ease;" onmouseover="this.style.borderColor='#d7ff2b';this.style.color='#d7ff2b'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='#fff'">‹</button>
-
-        <!-- Pfeil Rechts -->
-        <button onclick="moveSlider(1)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:10;background:rgba(6,6,6,0.7);border:2px solid rgba(255,255,255,0.2);color:#fff;border-radius:999px;width:44px;height:44px;font-size:20px;cursor:pointer;transition:0.2s ease;" onmouseover="this.style.borderColor='#d7ff2b';this.style.color='#d7ff2b'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='#fff'">›</button>
-
-        <!-- Dots -->
-        <div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;" id="sliderDots">
+        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;" id="sliderDots">
           <span onclick="goToSlide(0)" style="width:8px;height:8px;border-radius:999px;background:#d7ff2b;cursor:pointer;transition:0.2s;"></span>
           <span onclick="goToSlide(1)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
           <span onclick="goToSlide(2)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
@@ -1338,14 +1339,12 @@
           <span onclick="goToSlide(8)" style="width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.3);cursor:pointer;transition:0.2s;"></span>
         </div>
       </div>
-
     </section>
 
-  
     <section class="wrap reveal" style="margin-top: 76px; scroll-margin-top: 160px;" id="events">
       <span class="eyebrow">Night Program</span>
       <h2 class="section-title">One night, <span class="lime">already</span> regular</h2>
-      <p class="section-text">Kinky Event runs every Saturday. Students Party runs every Thursday. Both are already part of the house calendar. Kinky Event runs every Saturday. Students Party runs every Thursday. Both are already part of the house calendar.</p>
+      <p class="section-text">Kinky Event runs every Saturday. Students Party runs every Thursday. Both are already part of the house calendar.</p>
 
       <div class="event-grid">
         <article class="event-card">
@@ -1386,17 +1385,14 @@
         <button class="faq-q" type="button">How much are tickets? <span class="plus">+</span></button>
         <div class="faq-a">Museum day tickets are €10 (student) and €15 (regular). Event tickets are €20 (student) and €25 (regular).</div>
       </article>
-
       <article class="faq-item">
         <button class="faq-q" type="button">How does the matching work? <span class="plus">+</span></button>
         <div class="faq-a">We blend digital art with real-world interactions. On entry, you can opt into anonymous matchmaking games on interactive screens.</div>
       </article>
-
       <article class="faq-item">
         <button class="faq-q" type="button">What is your safety and consent policy? <span class="plus">+</span></button>
         <div class="faq-a">Zero tolerance for non-consensual behaviour. Events are staffed with trained awareness guides and open with a consent briefing.</div>
       </article>
-
       <article class="faq-item">
         <button class="faq-q" type="button">Where is the museum located? <span class="plus">+</span></button>
         <div class="faq-a">The Dating Museum is currently an active conceptual layout. Physical pop-up locations across Berlin and Munich are being prepared.</div>
@@ -1410,6 +1406,7 @@
     </footer>
   </main>
 
+  <!-- Ticket Overlay -->
   <div class="ticket-overlay" id="ticketOverlay" aria-hidden="true">
     <div class="ticket-panel" role="dialog" aria-modal="true" aria-labelledby="ticketTitle">
       <button class="ticket-close" type="button" id="closeTicketOverlay" aria-label="Close">×</button>
@@ -1427,9 +1424,9 @@
           <p class="ticket-price">15€</p>
           <p class="ticket-desc">Regular admission for visiting all exhibition rooms.</p>
           <div class="ticket-option-qty" aria-label="Regular Ticket quantity controls">
-            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease Regular Ticket quantity">−</button>
+            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease">−</button>
             <span class="ticket-option-count">00</span>
-            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase Regular Ticket quantity">+</button>
+            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase">+</button>
           </div>
         </article>
 
@@ -1442,9 +1439,9 @@
           <p class="ticket-price">10€</p>
           <p class="ticket-desc">Admission for students, trainees, and pupils.</p>
           <div class="ticket-option-qty" aria-label="Reduced Ticket quantity controls">
-            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease Reduced Ticket quantity">−</button>
+            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease">−</button>
             <span class="ticket-option-count">00</span>
-            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase Reduced Ticket quantity">+</button>
+            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase">+</button>
           </div>
         </article>
 
@@ -1457,9 +1454,9 @@
           <p class="ticket-price">45€</p>
           <p class="ticket-desc">Choose one of the four workshop options we offer.</p>
           <div class="ticket-option-qty" aria-label="Workshop quantity controls">
-            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease Workshop quantity">−</button>
+            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease">−</button>
             <span class="ticket-option-count">00</span>
-            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase Workshop quantity">+</button>
+            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase">+</button>
           </div>
         </article>
 
@@ -1472,18 +1469,18 @@
           <p class="ticket-price">25€</p>
           <p class="ticket-desc">Special ticket for current events. More information on Instagram.</p>
           <div class="ticket-option-qty" aria-label="Club or Event Night quantity controls">
-            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease Club or Event Night quantity">−</button>
+            <button class="ticket-option-btn ticket-option-minus" type="button" aria-label="Decrease">−</button>
             <span class="ticket-option-count">00</span>
-            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase Club or Event Night quantity">+</button>
+            <button class="ticket-option-btn ticket-option-plus" type="button" aria-label="Increase">+</button>
           </div>
         </article>
       </div>
 
       <div class="ticket-controls">
         <div class="ticket-date-wrap">
-          <label class="ticket-ctrl-label">Select visit date</label>
+          <label class="ticket-ctrl-label" for="visitDate">Select visit date</label>
           <div class="ticket-date-field">
-            <input type="text" id="visitDate" placeholder="mm/dd/yyyy" inputmode="numeric" autocomplete="off" maxlength="10" aria-label="Visit date in month slash day slash year format" oninput="this.value = formatVisitDateInput(this.value)" onblur="this.value = normalizeVisitDate(this.value)" />
+            <input type="text" id="visitDate" placeholder="mm/dd/yyyy" inputmode="numeric" autocomplete="off" maxlength="10" aria-label="Visit date in month slash day slash year format" />
             <img class="ticket-date-icon" src="./assets/Icons/Calender.png" alt="Calendar icon" />
           </div>
         </div>
@@ -1514,19 +1511,18 @@
     </div>
   </div>
 
+  <!-- Admin Modal -->
   <div class="admin-modal" id="adminModal" aria-hidden="true">
     <div class="admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
       <div class="admin-modal-head">
         <h3 class="admin-modal-title" id="adminModalTitle">Stats Access</h3>
         <button class="admin-modal-close" type="button" id="closeStatsAdmin" aria-label="Close stats modal">×</button>
       </div>
-
       <div class="admin-login">
         <input id="statsPassword" type="password" placeholder="Enter password" autocomplete="off" />
         <button type="button" id="unlockStats">Open stats</button>
         <p class="admin-err" id="statsPasswordError">Wrong password.</p>
       </div>
-
       <div class="admin-stats" id="adminStatsContent">
         <div class="admin-stat-row"><span>Website Visits</span><strong id="adminVisits">-</strong></div>
         <div class="admin-stat-row"><span>Ticket Clicks</span><strong id="adminPurchases">-</strong></div>
@@ -1536,67 +1532,76 @@
     </div>
   </div>
 
-  <a class="ticket-btn" href="#visit">Get Tickets</a>
+  <a class="ticket-btn" href="#visit" id="fixedTicketBtn">Get Tickets</a>
 
   <script>
+    // ── Video ──
     const heroVideo = document.querySelector('.hero video');
-    const playHeroVideo = () => {
-      heroVideo?.play().catch(() => {
-        /* Autoplay can be blocked until user interaction on some browsers. */
-      });
-    };
-
+    const playHeroVideo = () => heroVideo?.play().catch(() => {});
     if (heroVideo) {
-      if (heroVideo.readyState >= 2) {
-        playHeroVideo();
-      } else {
-        heroVideo.addEventListener('loadeddata', playHeroVideo, { once: true });
-      }
-
+      if (heroVideo.readyState >= 2) playHeroVideo();
+      else heroVideo.addEventListener('loadeddata', playHeroVideo, { once: true });
       document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && heroVideo.paused) {
-          playHeroVideo();
-        }
+        if (!document.hidden && heroVideo.paused) playHeroVideo();
       });
     }
 
-    const brandLink = document.querySelector('.brand');
-    brandLink?.addEventListener('click', (event) => {
-      event.preventDefault();
+    // ── Brand link ──
+    document.querySelector('.brand')?.addEventListener('click', (e) => {
+      e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'auto' });
       history.replaceState(null, '', '#top');
     });
 
-    const scrollTrigger = document.getElementById('scrollToEvents');
-    scrollTrigger?.addEventListener('click', () => {
+    // ── Scroll to visit ──
+    document.getElementById('scrollToEvents')?.addEventListener('click', () => {
       document.getElementById('visit')?.scrollIntoView({ behavior: 'smooth' });
     });
 
-    document.querySelectorAll('.faq-q').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.faq-item');
-        if (!item) return;
-        item.classList.toggle('open');
-      });
+    // ── Hamburger / Mobile Nav ──
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+
+    const openMobileNav = () => {
+      hamburgerBtn.classList.add('open');
+      mobileNav.classList.add('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeMobileNav = () => {
+      hamburgerBtn.classList.remove('open');
+      mobileNav.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+
+    hamburgerBtn?.addEventListener('click', () => {
+      mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav();
     });
 
+    document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', closeMobileNav);
+    });
+
+    // ── FAQ ──
+    document.querySelectorAll('.faq-q').forEach((btn) => {
+      btn.addEventListener('click', () => btn.closest('.faq-item')?.classList.toggle('open'));
+    });
+
+    // ── Reveal on scroll ──
     const revealEls = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            io.unobserve(entry.target);
-          }
+          if (entry.isIntersecting) { entry.target.classList.add('in-view'); io.unobserve(entry.target); }
         });
-      }, { threshold: 0.15 });
+      }, { threshold: 0.12 });
       revealEls.forEach((el) => io.observe(el));
     } else {
       revealEls.forEach((el) => el.classList.add('in-view'));
     }
 
-    const ticketButton = document.querySelector('.ticket-btn');
-    const infoTicketButton = document.getElementById('infoTicketButton');
+    // ── Ticket Overlay ──
     const ticketOverlay = document.getElementById('ticketOverlay');
     const closeTicketOverlay = document.getElementById('closeTicketOverlay');
     const postBuy = document.getElementById('postBuy');
@@ -1610,31 +1615,29 @@
       ticketOverlay?.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
     };
-
     const hideTicketOverlay = () => {
       ticketOverlay?.classList.remove('open');
       ticketOverlay?.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     };
 
-    ticketButton?.addEventListener('click', (event) => {
-      event.preventDefault();
+    // Fixed ticket button
+    document.getElementById('fixedTicketBtn')?.addEventListener('click', (e) => {
+      e.preventDefault();
       openTicketOverlay();
     });
-
-    infoTicketButton?.addEventListener('click', () => {
+    // Info band button
+    document.getElementById('infoTicketButton')?.addEventListener('click', openTicketOverlay);
+    // Mobile nav button
+    document.getElementById('mobileTicketBtn')?.addEventListener('click', () => {
+      closeMobileNav();
       openTicketOverlay();
     });
 
     closeTicketOverlay?.addEventListener('click', hideTicketOverlay);
+    ticketOverlay?.addEventListener('click', (e) => { if (e.target === ticketOverlay) hideTicketOverlay(); });
 
-    ticketOverlay?.addEventListener('click', (event) => {
-      if (event.target === ticketOverlay) {
-        hideTicketOverlay();
-      }
-    });
-
-    const visitDateInput = document.getElementById('visitDate');
+    // ── Ticket Cards ──
     const ticketCountEl = document.getElementById('ticketCount');
     const ticketCards = Array.from(document.querySelectorAll('.ticket-card'));
 
@@ -1648,88 +1651,57 @@
       .filter((item) => item.quantity > 0);
 
     const setTicketQuantity = (card, quantity) => {
-      const safeQuantity = Math.max(0, quantity);
-      card.dataset.quantity = String(safeQuantity);
-      card.classList.toggle('selected', safeQuantity > 0);
-
+      const q = Math.max(0, quantity);
+      card.dataset.quantity = String(q);
+      card.classList.toggle('selected', q > 0);
       const countEl = card.querySelector('.ticket-option-count');
-      if (countEl) countEl.textContent = String(safeQuantity).padStart(2, '0');
-
+      if (countEl) countEl.textContent = String(q).padStart(2, '0');
       updateTotal();
     };
 
     ticketCards.forEach((card) => {
       setTicketQuantity(card, 0);
-
-      card.addEventListener('click', (event) => {
-        if (event.target.closest('.ticket-option-btn')) return;
-        const currentQuantity = parseInt(card.dataset.quantity || '0', 10);
-        setTicketQuantity(card, currentQuantity > 0 ? 0 : 1);
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.ticket-option-btn')) return;
+        const q = parseInt(card.dataset.quantity || '0', 10);
+        setTicketQuantity(card, q > 0 ? 0 : 1);
       });
-
-      card.querySelector('.ticket-option-minus')?.addEventListener('click', (event) => {
-        event.stopPropagation();
-        const currentQuantity = parseInt(card.dataset.quantity || '0', 10);
-        setTicketQuantity(card, currentQuantity - 1);
+      card.querySelector('.ticket-option-minus')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setTicketQuantity(card, parseInt(card.dataset.quantity || '0', 10) - 1);
       });
-
-      card.querySelector('.ticket-option-plus')?.addEventListener('click', (event) => {
-        event.stopPropagation();
-        const currentQuantity = parseInt(card.dataset.quantity || '0', 10);
-        setTicketQuantity(card, currentQuantity + 1);
+      card.querySelector('.ticket-option-plus')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setTicketQuantity(card, parseInt(card.dataset.quantity || '0', 10) + 1);
       });
     });
 
+    // ── Date input ──
+    const visitDateInput = document.getElementById('visitDate');
+
     const clampDatePart = (value, min, max) => {
       if (!value) return '';
-      const numericValue = parseInt(value, 10);
-      if (Number.isNaN(numericValue)) return '';
-      return String(Math.min(Math.max(numericValue, min), max)).padStart(2, '0');
+      const n = parseInt(value, 10);
+      if (Number.isNaN(n)) return '';
+      return String(Math.min(Math.max(n, min), max)).padStart(2, '0');
     };
 
     const formatVisitDateInput = (value) => {
       const digits = value.replace(/\D/g, '').slice(0, 8);
       if (!digits) return '';
-
-      let cursor = 0;
-      let month = '';
-      let day = '';
-      let year = '';
-
-      const remainingForMonth = digits.slice(cursor);
-      if (remainingForMonth.length >= 2) {
-        month = clampDatePart(remainingForMonth.slice(0, 2), 1, 12);
-        cursor += 2;
-      } else if (remainingForMonth.length === 1) {
-        month = remainingForMonth > '1' ? `0${remainingForMonth}` : remainingForMonth;
-        cursor += remainingForMonth > '1' ? 1 : remainingForMonth.length;
-      }
-
-      const remainingForDay = digits.slice(cursor);
-      if (remainingForDay.length >= 2) {
-        day = clampDatePart(remainingForDay.slice(0, 2), 1, 31);
-        cursor += 2;
-      } else if (remainingForDay.length === 1) {
-        day = remainingForDay > '3' ? `0${remainingForDay}` : remainingForDay;
-        cursor += remainingForDay > '3' ? 1 : remainingForDay.length;
-      }
-
+      let cursor = 0, month = '', day = '', year = '';
+      const rem1 = digits.slice(cursor);
+      if (rem1.length >= 2) { month = clampDatePart(rem1.slice(0, 2), 1, 12); cursor += 2; }
+      else if (rem1.length === 1) { month = rem1 > '1' ? `0${rem1}` : rem1; cursor += rem1 > '1' ? 1 : rem1.length; }
+      const rem2 = digits.slice(cursor);
+      if (rem2.length >= 2) { day = clampDatePart(rem2.slice(0, 2), 1, 31); cursor += 2; }
+      else if (rem2.length === 1) { day = rem2 > '3' ? `0${rem2}` : rem2; cursor += rem2 > '3' ? 1 : rem2.length; }
       year = digits.slice(cursor, cursor + 4);
-
       let formatted = month;
-      if (digits.length > 1 || month.length === 2) {
-        formatted += '/';
-      }
-      if (day) {
-        formatted += day;
-      }
-      if (cursor > 2 || day.length === 2) {
-        formatted += '/';
-      }
-      if (year) {
-        formatted += year;
-      }
-
+      if (digits.length > 1 || month.length === 2) formatted += '/';
+      if (day) formatted += day;
+      if (cursor > 2 || day.length === 2) formatted += '/';
+      if (year) formatted += year;
       return formatted;
     };
 
@@ -1739,213 +1711,135 @@
       return match ? formatted : formatted.replace(/\/?$/, '');
     };
 
-    visitDateInput?.addEventListener('input', () => {
-      visitDateInput.value = formatVisitDateInput(visitDateInput.value);
-    });
-
-    visitDateInput?.addEventListener('blur', () => {
-      visitDateInput.value = normalizeVisitDate(visitDateInput.value);
-    });
+    visitDateInput?.addEventListener('input', () => { visitDateInput.value = formatVisitDateInput(visitDateInput.value); });
+    visitDateInput?.addEventListener('blur', () => { visitDateInput.value = normalizeVisitDate(visitDateInput.value); });
 
     function updateTotal() {
-      const selectedTickets = getSelectedTickets();
-      const totalCount = selectedTickets.reduce((sum, item) => sum + item.quantity, 0);
-      const totalPrice = selectedTickets.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const sel = getSelectedTickets();
+      const totalCount = sel.reduce((s, i) => s + i.quantity, 0);
+      const totalPrice = sel.reduce((s, i) => s + i.price * i.quantity, 0);
       if (ticketCountEl) ticketCountEl.textContent = String(totalCount).padStart(2, '0');
       const el = document.getElementById('ticketTotal');
       if (el) el.textContent = `${totalPrice}€`;
     }
 
     document.getElementById('ticketRegisterBtn')?.addEventListener('click', () => {
-      const selectedTickets = getSelectedTickets();
-      if (selectedTickets.length === 0) {
-        alert('Please select a ticket first.');
-        return;
-      }
-
-      const normalizedVisitDate = normalizeVisitDate(visitDateInput?.value || '');
-      if (visitDateInput) visitDateInput.value = normalizedVisitDate;
-
-      selectedTicket = selectedTickets
-        .map((item) => `${item.title} x${item.quantity}`)
-        .join(', ');
-
-      if (normalizedVisitDate) {
-        selectedTicket += ` | Visit date: ${normalizedVisitDate}`;
-      }
-
+      const sel = getSelectedTickets();
+      if (sel.length === 0) { alert('Please select a ticket first.'); return; }
+      const nd = normalizeVisitDate(visitDateInput?.value || '');
+      if (visitDateInput) visitDateInput.value = nd;
+      selectedTicket = sel.map((i) => `${i.title} x${i.quantity}`).join(', ');
+      if (nd) selectedTicket += ` | Visit date: \${nd}`;
       document.getElementById('postBuy')?.classList.add('show');
       document.getElementById('postBuy')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       hitCount(PURCHASES_KEY).then(refreshStats).catch(() => null);
     });
 
-    postBuyForm?.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
+    postBuyForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
       const emailValue = notifyEmail?.value?.trim();
       if (!emailValue) return;
-
-      const payload = {
-        email: emailValue,
-        selected_ticket: selectedTicket,
-        _subject: 'Dating Museum - Ticket Interest',
-        _captcha: 'false'
-      };
-
+      const payload = { email: emailValue, selected_ticket: selectedTicket, _subject: 'Dating Museum - Ticket Interest', _captcha: 'false' };
       try {
-        const response = await fetch('https://formsubmit.co/ajax/paukerleon@gmail.com', {
+        const res = await fetch('https://formsubmit.co/ajax/paukerleon@gmail.com', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(payload)
         });
-
-        if (!response.ok) {
-          throw new Error('Form submit failed');
-        }
-
+        if (!res.ok) throw new Error('failed');
         mailSent.textContent = 'Thanks. Your email was sent to datingmuseum@gmail.com.';
       } catch {
         const subject = encodeURIComponent('Dating Museum - Ticket Interest');
-        const body = encodeURIComponent(`Email: ${emailValue}\nTicket: ${selectedTicket}`);
+        const body = encodeURIComponent(`Email: \${emailValue}\nTicket: \${selectedTicket}`);
         window.location.href = `mailto:paukerleon@gmail.com?subject=${subject}&body=${body}`;
         mailSent.textContent = 'Your mail app has been opened to send your details to paukerleon@gmail.com.';
       }
-
       mailSent?.classList.add('show');
       postBuyForm.reset();
     });
 
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && ticketOverlay?.classList.contains('open')) {
-        hideTicketOverlay();
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (ticketOverlay?.classList.contains('open')) hideTicketOverlay();
+        if (mobileNav?.classList.contains('open')) closeMobileNav();
       }
     });
 
+    // ── Stats / Admin ──
     const COUNTER_NAMESPACE = 'dating-museum-live';
     const VISITS_KEY = 'visits';
     const PURCHASES_KEY = 'purchases';
     const SIGNUPS_KEY = 'signups';
-
-    const statVisits = document.getElementById('statVisits');
-    const statPurchases = document.getElementById('statPurchases');
-    const statSignups = document.getElementById('statSignups');
-    const openStatsAdmin = document.getElementById('openStatsAdmin');
-    const adminModal = document.getElementById('adminModal');
-    const closeStatsAdmin = document.getElementById('closeStatsAdmin');
-    const unlockStats = document.getElementById('unlockStats');
-    const statsPassword = document.getElementById('statsPassword');
-    const statsPasswordError = document.getElementById('statsPasswordError');
-    const adminStatsContent = document.getElementById('adminStatsContent');
-    const adminVisits = document.getElementById('adminVisits');
-    const adminPurchases = document.getElementById('adminPurchases');
-    const adminSignups = document.getElementById('adminSignups');
-    const adminRefreshStats = document.getElementById('adminRefreshStats');
-
     const ADMIN_STATS_PASSWORD = 'FHPGOATED';
 
-    const formatStat = (value) => new Intl.NumberFormat('de-DE').format(value);
+    const formatStat = (v) => new Intl.NumberFormat('de-DE').format(v);
 
     const getCount = async (key) => {
-      const url = `https://api.countapi.xyz/get/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(key)}`;
-      const response = await fetch(url);
-      if (!response.ok) return 0;
-      const data = await response.json();
+      const res = await fetch(`https://api.countapi.xyz/get/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(key)}`);
+      if (!res.ok) return 0;
+      const data = await res.json();
       return Number.isFinite(data.value) ? data.value : 0;
     };
-
     const hitCount = async (key) => {
-      const url = `https://api.countapi.xyz/hit/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(key)}`;
-      const response = await fetch(url);
-      if (!response.ok) return null;
-      const data = await response.json();
+      const res = await fetch(`https://api.countapi.xyz/hit/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(key)}`);
+      if (!res.ok) return null;
+      const data = await res.json();
       return Number.isFinite(data.value) ? data.value : null;
     };
 
     const refreshStats = async () => {
       try {
-        const [visits, purchases, signups] = await Promise.all([
-          getCount(VISITS_KEY),
-          getCount(PURCHASES_KEY),
-          getCount(SIGNUPS_KEY)
-        ]);
-        if (statVisits) statVisits.textContent = formatStat(visits);
-        if (statPurchases) statPurchases.textContent = formatStat(purchases);
-        if (statSignups) statSignups.textContent = formatStat(signups);
-        if (adminVisits) adminVisits.textContent = formatStat(visits);
-        if (adminPurchases) adminPurchases.textContent = formatStat(purchases);
-        if (adminSignups) adminSignups.textContent = formatStat(signups);
+        const [visits, purchases, signups] = await Promise.all([getCount(VISITS_KEY), getCount(PURCHASES_KEY), getCount(SIGNUPS_KEY)]);
+        ['statVisits','adminVisits'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = formatStat(visits); });
+        ['statPurchases','adminPurchases'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = formatStat(purchases); });
+        ['statSignups','adminSignups'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = formatStat(signups); });
       } catch {
-        if (statVisits) statVisits.textContent = '-';
-        if (statPurchases) statPurchases.textContent = '-';
-        if (statSignups) statSignups.textContent = '-';
-        if (adminVisits) adminVisits.textContent = '-';
-        if (adminPurchases) adminPurchases.textContent = '-';
-        if (adminSignups) adminSignups.textContent = '-';
+        ['statVisits','statPurchases','statSignups','adminVisits','adminPurchases','adminSignups'].forEach(id => {
+          const el = document.getElementById(id); if (el) el.textContent = '-';
+        });
       }
     };
 
-    const trackVisit = async () => {
-      await hitCount(VISITS_KEY).catch(() => null);
-      refreshStats();
-    };
+    hitCount(VISITS_KEY).catch(() => null).then(refreshStats);
 
-    trackVisit();
+    postBuyForm?.addEventListener('submit', () => hitCount(SIGNUPS_KEY).then(refreshStats).catch(() => null));
 
-    postBuyForm?.addEventListener('submit', () => {
-      hitCount(SIGNUPS_KEY)
-        .then(refreshStats)
-        .catch(() => null);
-    });
-
+    const adminModal = document.getElementById('adminModal');
     const showAdminModal = () => {
       adminModal?.classList.add('open');
       adminModal?.setAttribute('aria-hidden', 'false');
-      if (statsPassword) statsPassword.value = '';
-      statsPasswordError?.classList.remove('show');
-      adminStatsContent?.classList.remove('show');
+      const sp = document.getElementById('statsPassword');
+      if (sp) sp.value = '';
+      document.getElementById('statsPasswordError')?.classList.remove('show');
+      document.getElementById('adminStatsContent')?.classList.remove('show');
     };
-
     const hideAdminModal = () => {
       adminModal?.classList.remove('open');
       adminModal?.setAttribute('aria-hidden', 'true');
     };
 
-    openStatsAdmin?.addEventListener('click', showAdminModal);
-    closeStatsAdmin?.addEventListener('click', hideAdminModal);
+    document.getElementById('openStatsAdmin')?.addEventListener('click', showAdminModal);
+    document.getElementById('closeStatsAdmin')?.addEventListener('click', hideAdminModal);
+    adminModal?.addEventListener('click', (e) => { if (e.target === adminModal) hideAdminModal(); });
 
-    adminModal?.addEventListener('click', (event) => {
-      if (event.target === adminModal) {
-        hideAdminModal();
-      }
-    });
-
-    unlockStats?.addEventListener('click', async () => {
-      if (statsPassword?.value !== ADMIN_STATS_PASSWORD) {
-        statsPasswordError?.classList.add('show');
-        adminStatsContent?.classList.remove('show');
-        return;
-      }
-
-      statsPasswordError?.classList.remove('show');
+    document.getElementById('unlockStats')?.addEventListener('click', async () => {
+      const sp = document.getElementById('statsPassword');
+      const err = document.getElementById('statsPasswordError');
+      const content = document.getElementById('adminStatsContent');
+      if (sp?.value !== ADMIN_STATS_PASSWORD) { err?.classList.add('show'); content?.classList.remove('show'); return; }
+      err?.classList.remove('show');
       await refreshStats();
-      adminStatsContent?.classList.add('show');
+      content?.classList.add('show');
     });
 
-    statsPassword?.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        unlockStats?.click();
-      }
+    document.getElementById('statsPassword')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); document.getElementById('unlockStats')?.click(); }
     });
 
-    adminRefreshStats?.addEventListener('click', refreshStats);
-
+    document.getElementById('adminRefreshStats')?.addEventListener('click', refreshStats);
     refreshStats();
 
-    // Slider
+    // ── Slider (kein Pfeil, nur Dots + Swipe) ──
     let currentSlide = 0;
     const totalSlides = 9;
 
@@ -1967,15 +1861,38 @@
       updateSlider();
     }
 
-    // Touch/Swipe Support
-    let touchStartX = 0;
+    // Touch/Swipe — funktioniert auf Desktop (Mouse) UND Mobile (Touch)
     const sliderEl = document.querySelector('.gallery-slider');
-    sliderEl?.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+    let pointerStartX = 0;
+    let isDragging = false;
+
+    // Touch Events (Mobile)
+    sliderEl?.addEventListener('touchstart', (e) => {
+      pointerStartX = e.touches[0].clientX;
+      isDragging = true;
+    }, { passive: true });
+
     sliderEl?.addEventListener('touchend', (e) => {
-      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (!isDragging) return;
+      isDragging = false;
+      const diff = pointerStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) moveSlider(diff > 0 ? 1 : -1);
+    }, { passive: true });
+
+    // Mouse Events (Desktop-Swipe mit Maus)
+    sliderEl?.addEventListener('mousedown', (e) => {
+      pointerStartX = e.clientX;
+      isDragging = true;
+    });
+
+    sliderEl?.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const diff = pointerStartX - e.clientX;
       if (Math.abs(diff) > 40) moveSlider(diff > 0 ? 1 : -1);
     });
 
+    sliderEl?.addEventListener('mouseleave', () => { isDragging = false; });
   </script>
 </body>
 </html>
