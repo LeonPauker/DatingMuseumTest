@@ -134,10 +134,6 @@
     /* Hamburger */
     .hamburger {
       display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
       width: 44px;
       height: 44px;
       background: transparent;
@@ -148,8 +144,21 @@
       padding: 0;
       z-index: 60;
       flex-shrink: 0;
+      position: relative;
+      align-items: center;
+      justify-content: center;
     }
-    .hamburger span {
+
+    /* Die 3 Balken */
+    .hamburger-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hamburger-bar {
       display: block;
       width: 20px;
       height: 2px;
@@ -157,9 +166,24 @@
       border-radius: 2px;
       transition: 0.3s ease;
     }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Das X */
+    .hamburger-x {
+      display: none;
+      font-size: 24px;
+      font-family: "Space Mono", monospace;
+      color: var(--white);
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    /* Offen: Balken weg, X sichtbar */
+    .hamburger.open .hamburger-bars { display: none; }
+    .hamburger.open .hamburger-x    { display: flex; align-items: center; justify-content: center; }
+
+    @media (max-width: 980px) {
+      .hamburger { display: flex; }
+    }
 
     /* Mobile Nav Drawer */
     .mobile-nav {
@@ -200,6 +224,25 @@
       text-decoration: none;
       border: none;
       cursor: pointer;
+    }
+    .mobile-nav .mobile-back-link {
+      margin-top: 8px;
+      font-family: "Space Mono", monospace;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 14px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .mobile-nav .mobile-back-link:hover {
+      border-color: var(--lime);
+      color: var(--lime);
     }
 
     .ticket-btn {
@@ -1132,9 +1175,12 @@
         <a href="#faq">FAQ</a>
       </nav>
       <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
+        <div class="hamburger-bars">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </div>
+        <span class="hamburger-x">✕</span>
       </button>
     </div>
   </header>
@@ -1145,6 +1191,7 @@
     <a href="#shop" class="mobile-nav-link">Shop</a>
     <a href="#faq" class="mobile-nav-link">FAQ</a>
     <button class="mobile-ticket-link" id="mobileTicketBtn" type="button">Get Tickets</button>
+    <button class="mobile-back-link" id="mobileBackBtn" type="button">✕ Zurück zum Start</button>
   </nav>
 
   <section class="hero" id="top">
@@ -1568,16 +1615,25 @@
       hamburgerBtn.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
     };
-    const closeMobileNav = () => {
-      hamburgerBtn.classList.remove('open');
-      mobileNav.classList.remove('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    };
+    const closeMobileNav = (scrollToTop = false) => {
+  hamburgerBtn.classList.remove('open');
+  mobileNav.classList.remove('open');
+  hamburgerBtn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+  if (scrollToTop) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+};
 
-    hamburgerBtn?.addEventListener('click', () => {
-      mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav();
-    });
+hamburgerBtn?.addEventListener('click', () => {
+  if (mobileNav.classList.contains('open')) {
+    closeMobileNav(true); // X → scrollt zurück nach oben
+  } else {
+    openMobileNav();
+  }
+});
+
+    document.getElementById('mobileBackBtn')?.addEventListener('click', closeMobileNav);
 
     document.querySelectorAll('.mobile-nav-link').forEach((link) => {
       link.addEventListener('click', closeMobileNav);
