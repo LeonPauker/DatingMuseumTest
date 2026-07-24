@@ -137,8 +137,8 @@
       width: 44px;
       height: 44px;
       background: transparent;
-      border: 2px solid var(--line);
-      border-radius: 12px;
+      border: 0;
+      border-radius: 0;
       cursor: pointer;
       margin-left: auto;
       padding: 0;
@@ -263,6 +263,13 @@
       transition: 0.2s ease;
       display: inline-block;
       box-shadow: 0 0 18px 4px rgba(242, 5, 143, 0.6);
+    }
+    .ticket-btn .ticket-btn-label { display: inline; }
+    .ticket-btn .ticket-btn-icon {
+      display: none;
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
     }
     .ticket-btn:hover { background: var(--pink); color: var(--white); transform: translateY(-2px); }
 
@@ -1063,7 +1070,14 @@
       .event-grid { grid-template-columns: 1fr; }
       .main { padding-top: 84px; }
       .menu-list { display: none; }
-      .hamburger { display: flex; }
+      .hamburger {
+        display: flex;
+        width: 50px;
+        height: 50px;
+        border-radius: 0;
+      }
+      .hamburger-bars { display: flex; }
+      .mobile-nav.open ~ .ticket-btn { display: none; }
       .gallery-caption { flex-direction: column; align-items: flex-start; }
       .stats-grid { grid-template-columns: 1fr; }
       .info-card { min-height: auto; padding: 20px; }
@@ -1072,16 +1086,25 @@
     @media (max-width: 600px) {
       /* Header */
       .site-header .row { padding: 10px 14px; }
-      .brand-logo { width: 70px; height: 70px; }
 
       /* Ticket Button — smaller on mobile */
       .ticket-btn {
         top: auto;
         bottom: 16px;
         right: 16px;
-        padding: 14px 22px;
-        font-size: 10px;
-        border-radius: 12px;
+        width: 64px;
+        height: 64px;
+        padding: 0;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ticket-btn .ticket-btn-label { display: none; }
+      .ticket-btn .ticket-btn-icon {
+        display: block;
+        width: 36px;
+        height: 36px;
       }
 
       /* Hero */
@@ -1104,10 +1127,39 @@
       .event-card { padding: 18px; border-radius: 18px; }
       .event-card h3 { font-size: clamp(18px, 5vw, 24px); }
 
+      /* Installations slider images bigger on mobile */
+      .gallery-slider {
+        margin-top: 24px !important;
+        border-radius: 20px !important;
+      }
+      .slider-slide .duo { aspect-ratio: 4 / 5 !important; }
+
       /* Slider captions */
-      .gallery-caption { padding: 14px 16px; }
+      .gallery-caption {
+        position: static;
+        background: #0d0d0d;
+        padding: 12px 14px 16px;
+      }
       .gallery-caption-text h3 { font-size: clamp(16px, 5vw, 24px); }
-      .gallery-caption-text p { font-size: 12px; }
+      .gallery-caption-text p {
+        display: none;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      .slider-slide.mobile-desc-open .gallery-caption-text p { display: block; }
+      .slider-slide .duo {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+      #sliderDots {
+        position: static !important;
+        left: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        justify-content: center;
+        margin: 8px auto 12px;
+      }
+      .gallery-slider.mobile-has-desc-open #sliderDots { margin-top: 12px; }
 
       /* FAQ */
       .faq { margin-top: 60px; }
@@ -1175,12 +1227,12 @@
         <a href="#faq">FAQ</a>
       </nav>
       <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
-        <div class="hamburger-bars">
+        <div class="hamburger-bars" aria-hidden="true">
           <span class="hamburger-bar"></span>
           <span class="hamburger-bar"></span>
           <span class="hamburger-bar"></span>
         </div>
-        <span class="hamburger-x">✕</span>
+        <span class="hamburger-x">☰</span>
       </button>
     </div>
   </header>
@@ -1202,10 +1254,9 @@
     <div class="hero-inner">
       <div class="hero-center">
         <p class="hero-copy">skip the swipe.<br /><span class="pink">feel</span> the <span class="lime">spark.</span></p>
-        <p class="hero-sub">Rooms, games and late nights built for meeting people IRL. No profile required.</p>
       </div>
       <div class="scroll-indicator" id="scrollToEvents">
-        Explore the Collection
+        Explore
         <span class="arrow">⌄</span>
       </div>
     </div>
@@ -1579,7 +1630,10 @@
     </div>
   </div>
 
-  <a class="ticket-btn" href="#visit" id="fixedTicketBtn">Get Tickets</a>
+  <a class="ticket-btn" href="#visit" id="fixedTicketBtn" aria-label="Get Tickets">
+    <span class="ticket-btn-label">Get Tickets</span>
+    <img class="ticket-btn-icon" src="./assets/Icons/TicketIconFinal.png" alt="" aria-hidden="true" />
+  </a>
 
   <script>
     // ── Video ──
@@ -1608,17 +1662,20 @@
     // ── Hamburger / Mobile Nav ──
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const mobileNav = document.getElementById('mobileNav');
+    const hamburgerIcon = hamburgerBtn?.querySelector('.hamburger-x');
 
     const openMobileNav = () => {
       hamburgerBtn.classList.add('open');
       mobileNav.classList.add('open');
       hamburgerBtn.setAttribute('aria-expanded', 'true');
+      if (hamburgerIcon) hamburgerIcon.textContent = '✕';
       document.body.style.overflow = 'hidden';
     };
     const closeMobileNav = (scrollToTop = false) => {
   hamburgerBtn.classList.remove('open');
   mobileNav.classList.remove('open');
   hamburgerBtn.setAttribute('aria-expanded', 'false');
+  if (hamburgerIcon) hamburgerIcon.textContent = '☰';
   document.body.style.overflow = '';
   if (scrollToTop) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1899,12 +1956,24 @@ hamburgerBtn?.addEventListener('click', () => {
     let currentSlide = 0;
     const totalSlides = 9;
 
+    let mobileDescriptionOpen = false;
+
+    function syncMobileGalleryDescriptionState() {
+      if (!mobileMediaQuery.matches) return;
+      const slides = document.querySelectorAll('.slider-slide');
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('mobile-desc-open', mobileDescriptionOpen && index === currentSlide);
+      });
+      sliderEl?.classList.toggle('mobile-has-desc-open', mobileDescriptionOpen);
+    }
+
     function updateSlider() {
       const track = document.querySelector('.slider-track');
       if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
       document.querySelectorAll('#sliderDots span').forEach((dot, i) => {
         dot.style.background = i === currentSlide ? '#d7ff2b' : 'rgba(255,255,255,0.3)';
       });
+      syncMobileGalleryDescriptionState();
     }
 
     function moveSlider(dir) {
@@ -1921,6 +1990,35 @@ hamburgerBtn?.addEventListener('click', () => {
     const sliderEl = document.querySelector('.gallery-slider');
     let pointerStartX = 0;
     let isDragging = false;
+
+    const mobileMediaQuery = window.matchMedia('(max-width: 980px)');
+
+    function setupMobileGalleryDescriptions() {
+      const slides = document.querySelectorAll('.slider-slide');
+      slides.forEach((slide) => {
+        const imageArea = slide.querySelector('.duo');
+        if (!imageArea) return;
+        if (imageArea.dataset.mobileDescBound === '1') return;
+        imageArea.dataset.mobileDescBound = '1';
+        imageArea.addEventListener('click', () => {
+          if (!mobileMediaQuery.matches) return;
+          mobileDescriptionOpen = !(mobileDescriptionOpen && Array.from(document.querySelectorAll('.slider-slide')).indexOf(slide) === currentSlide);
+          currentSlide = Array.from(document.querySelectorAll('.slider-slide')).indexOf(slide);
+          syncMobileGalleryDescriptionState();
+        });
+      });
+    }
+
+    setupMobileGalleryDescriptions();
+
+    mobileMediaQuery.addEventListener('change', (e) => {
+      if (e.matches) return;
+      mobileDescriptionOpen = false;
+      document.querySelectorAll('.slider-slide.mobile-desc-open').forEach((slide) => {
+        slide.classList.remove('mobile-desc-open');
+      });
+      sliderEl?.classList.remove('mobile-has-desc-open');
+    });
 
     // Touch Events (Mobile)
     sliderEl?.addEventListener('touchstart', (e) => {
